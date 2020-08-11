@@ -2007,7 +2007,7 @@ __webpack_require__.r(__webpack_exports__);
           _this.buttonText = "loading... " + percentCompleted + "%";
         }
       };
-      axios.post("/api/new/" + window.bookId, data, config).then(function (res) {
+      axios.post("/api/lesson/new/" + window.bookId, data, config).then(function (res) {
         if (res.data["isSuccess"] == false) {
           _this.errorMessage = JSON.stringify(res.data["errorMessage"]);
           _this.hasError = true;

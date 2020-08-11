@@ -123,7 +123,7 @@ class MainController extends Controller
         $rules = [
             "cinwaanka_casharka" => "required|string|max:255",
             "numbarka_casharka" => "nullable|integer",
-            "fileka_muxaadarada" => "required|file|mimes:audio/mpeg,mp3,wav",
+            "fileka_casharka" => "required|file|mimes:audio/mpeg,mp3,wav",
         ];
 
         if ($request->expectsJson()) {

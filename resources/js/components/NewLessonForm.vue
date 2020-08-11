@@ -103,7 +103,7 @@ export default {
       };
 
       axios
-        .post("/api/new/" + window.bookId, data, config)
+        .post("/api/lesson/new/" + window.bookId, data, config)
         .then(function(res) {
           if (res.data["isSuccess"] == false) {
             _this.errorMessage = JSON.stringify(res.data["errorMessage"]);
