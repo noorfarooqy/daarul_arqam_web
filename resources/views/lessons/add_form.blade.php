@@ -10,23 +10,26 @@ Casharada
 
 @section('content')
 <div class="row">
-    <div class="col-md-2 col-lg-2"></div>
-    <div class="col-md-8 col-lg-8">
+    <div class="col-md-2 col-lg-2">
+        
+    </div>
+    <div class="col-md-7 col-lg-7">
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">CASHAR CUSUB</h4>
                 <p class="card-title-desc">
                     Diiwaan galinta Cashar cusub buuga {{$book->book_name}}
                 </p>
-                @if (Session::has('success'))
-                    
-                <div class="alert alert-success"> {{Session::get('success')}} </div>
-                @endif
-                @error('errorMessage')
-                    <div class="alert alert-danger">{{$message}}</div>
-                @enderror
-                    
-                <form class="form" method="POST" action="/casharada/new/{{$book->id}}"
+
+                
+
+                <div v-for="(Lesson,lkey) in Lessons" :key="lkey">
+                    <lesson-form v-bind="{Lesson:Lesson}"></lesson-form>
+                </div>
+                
+                
+                
+                {{-- <form class="form" method="POST" action="/casharada/new/{{$book->id}}"
                     enctype="multipart/form-data">
                     @csrf
                     <div class="mb-4">
@@ -67,11 +70,26 @@ Casharada
                     <div class="mb-4">
                         <input class="form-control btn btn-primary" type="submit" value="Add Sheekh">
                     </div>
-                </form>
+                </form> --}}
             </div>
+        </div>
+        <div class="card-footer">
+            <button class="btn btn-secondary" @click.prevent="AddNewLesson">
+                    <i class="fas fa-plus"></i> Kudar cashar kale
+                </button>
         </div>
     </div>
     <div class="col-md-2 col-lg-2"></div>
 </div>
 
+@endsection
+
+@section('scripts')
+<script>
+    window.bookId = "{{$book->id}}";
+    window.api_token = "{{Auth::user()->api_token}}";
+    window.lessonNumber = "{{($book->Casharada->count()+1)}}";
+
+</script>
+<script src="/js/newCashar.js" type="text/javascript"></script>
 @endsection

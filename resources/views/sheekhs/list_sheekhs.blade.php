@@ -1,7 +1,7 @@
 @extends('layouts.main_layout')
 
 @section('pageTitle')
-Sheekh Cusub
+Sheekh List
 @endsection
 
 @section('parentPage')
@@ -39,8 +39,8 @@ Sheekh
                                                 <td>{{$sh->sheekh_name}}</td>
                                                 <td>{{$sh->sheekh_email}}</td>
                                                 <td>{{$sh->sheekh_current_country}}</td>
-                                                <td>0</td>
-                                                <td>0</td>
+                                                <td>{{$sh->Books->count()}}</td>
+                                                <td>{{$sh->Casharada->count()}}</td>
                                             </tr>
                                             @endforeach
                                             

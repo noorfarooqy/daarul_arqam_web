@@ -33,8 +33,12 @@ Route::middleware('auth')->group(function () {
     Route::prefix('casharada')->group(function () {
         Route::get('/new/{book_id}', 'MainController@AddLessonForm');
         Route::get('/list', 'MainController@ListLesson');
-        Route::post('/new/{book_id}', 'MainController@AddLessonToDB');
+        // Route::post('/new/{book_id}', 'MainController@AddLessonToDB');
+    });
+    Route::prefix('muxaadaro')->group(function () {
+        Route::get('/new', 'MainController@AddSermonForm');
+        Route::get('/list', 'MainController@ListSermons');
     });
 });
 
-Auth::routes(['register' => true]);
+Auth::routes(['register' => env('registration_status', true)]);

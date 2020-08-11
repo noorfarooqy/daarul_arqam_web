@@ -41,4 +41,9 @@ class SheekhsModel extends Model
     {
         return $this->Books->count();
     }
+
+    public function Casharada()
+    {
+        return $this->hasMany(LessonsModel::class, 'sheekh_id', 'id');
+    }
 }

@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -1899,10 +1899,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js&":
-/*!***************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js& ***!
-  \***************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/NewSermonForm.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/NewSermonForm.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1924,10 +1924,127 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      name: "new lesson form",
+      version: 1,
+      isLoading: false,
+      buttonText: "Add Lesson",
+      lessonNumber: 0,
+      isSuccess: false,
+      successMessage: null,
+      hasError: false,
+      errorMessage: null,
+      sermonTitle: null,
+      sheekhId: -1,
+      sermonLocation: null
+    };
+  },
   mounted: function mounted() {
-    console.log('Component mounted.');
-  }
+    if (window.lessonNumber != undefined && window.lessonNumber != null) {
+      console.log("I am " + window.lessonNumber);
+      this.lessonNumber = window.lessonNumber;
+      window.lessonNumber = parseInt(window.lessonNumber) + 1;
+      this.Lesson.setCasharNumber(this.lessonNumber);
+    }
+  },
+  methods: {
+    resetMessages: function resetMessages() {
+      this.errorMessage = null;
+      this.hasError = false;
+      this.isSuccess = false;
+      this.successMessage = null;
+    },
+    submitForm: function submitForm($event) {
+      this.resetMessages();
+      console.log("we are here ");
+      this.buttonText = "Loading...";
+      this.isLoading = true;
+      var data = new FormData();
+      data.append("api_token", window.api_token);
+      data.append("cinwaanka_muxaadara", this.sermonTitle);
+      data.append("goobta_muxaadarada", this.sermonLocation);
+      data.append("fileka_muxaadarada", document.getElementById("fileka_muxaadarada").files[0]);
+      data.append("sheekha", this.sheekhId);
+      console.log(data);
+
+      var _this = this;
+
+      var config = {
+        onUploadProgress: function onUploadProgress(progressEvent) {
+          var percentCompleted = Math.round(progressEvent.loaded * 100 / progressEvent.total);
+          _this.buttonText = "loading... " + percentCompleted + "%";
+        }
+      };
+      axios.post("/api/muxaadaro/new", data, config).then(function (res) {
+        if (res.data["isSuccess"] == false) {
+          _this.errorMessage = JSON.stringify(res.data["errorMessage"]);
+          _this.hasError = true;
+          _this.isLoading = false;
+          _this.buttonText = "Add Sermon";
+        } else {
+          _this.successMessage = "successfully completed muxaadarada";
+          _this.isSuccess = true;
+
+          _this.$emit("completed-sermon");
+
+          _this.buttonText = "Add Sermon";
+          _this.isLoading = false;
+        }
+      })["catch"](function (err) {
+        _this.errorMessage = err.message;
+        _this.hasError = true;
+        _this.isLoading = false;
+        _this.buttonText = "Add Sermon";
+      });
+    },
+    setSelectedSheekh: function setSelectedSheekh(event) {
+      console.log(event);
+      var selectedIndex = event.target.selectedIndex;
+      this.sheekhId = event.target.options[selectedIndex].value;
+    }
+  },
+  props: ["sheekhList"]
 });
 
 /***/ }),
@@ -2400,10 +2517,10 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e&":
-/*!*******************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e& ***!
-  \*******************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/NewSermonForm.vue?vue&type=template&id=459e4af5&":
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/NewSermonForm.vue?vue&type=template&id=459e4af5& ***!
+  \****************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2415,29 +2532,158 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "form",
+    {
+      staticClass: "form",
+      attrs: { method: "POST", enctype: "multipart/form-data" }
+    },
+    [
+      _vm.isSuccess
+        ? _c("div", { staticClass: "alert alert-success" }, [
+            _c("span", {
+              domProps: { textContent: _vm._s(_vm.successMessage) }
+            })
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.hasError
+        ? _c("div", { staticClass: "alert alert-danger" }, [
+            _c("span", { domProps: { textContent: _vm._s(_vm.errorMessage) } })
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _c("div", { staticClass: "mb-4" }, [
+        _c(
+          "select",
+          {
+            staticClass: "form-control",
+            on: {
+              change: function($event) {
+                $event.preventDefault()
+                return _vm.setSelectedSheekh($event)
+              }
+            }
+          },
+          [
+            _c("option", { attrs: { value: "-1" } }, [
+              _vm._v("Sheekha soo jeediyay muxaadarada")
+            ]),
+            _vm._v(" "),
+            _vm._l(_vm.sheekhList, function(sheekh, skey) {
+              return _c(
+                "option",
+                { key: skey, domProps: { value: sheekh.id } },
+                [_vm._v(_vm._s(sheekh.sheekh_name))]
+              )
+            })
+          ],
+          2
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "mb-4" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.sermonTitle,
+              expression: "sermonTitle"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: {
+            name: "cinwaanka_muxaadarada",
+            type: "text",
+            placeholder: "Cinwaanka Muxaadarada"
+          },
+          domProps: { value: _vm.sermonTitle },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.sermonTitle = $event.target.value
+            }
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "mb-4" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.sermonLocation,
+              expression: "sermonLocation"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: {
+            name: "goobga_muxaadara",
+            type: "text",
+            placeholder: "Goobta Muxaadarada lagu qabtay"
+          },
+          domProps: { value: _vm.sermonLocation },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.sermonLocation = $event.target.value
+            }
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "mb-4" }, [
+        _c(
+          "button",
+          {
+            staticClass: "form-control btn btn-primary",
+            attrs: { type: "submit", disabled: _vm.isLoading },
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                return _vm.submitForm($event)
+              }
+            }
+          },
+          [
+            _c("span", { domProps: { textContent: _vm._s(_vm.buttonText) } }),
+            _vm._v(" "),
+            _vm.isLoading
+              ? _c("span", {
+                  staticClass: "spinner-border text-white small",
+                  attrs: { role: "status" }
+                })
+              : _vm._e()
+          ]
+        )
+      ])
+    ]
+  )
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "row justify-content-center" }, [
-        _c("div", { staticClass: "col-md-8" }, [
-          _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-header" }, [
-              _vm._v("Example Component")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _vm._v(
-                "\n                    I'm an example component.\n                "
-              )
-            ])
-          ])
-        ])
-      ])
+    return _c("div", { staticClass: "mb-4" }, [
+      _c("label", { attrs: { for: "" } }, [_vm._v("Fileka muxaadarada")]),
+      _vm._v(" "),
+      _c("input", {
+        staticClass: "form-control",
+        attrs: {
+          name: "fileka_muxaadarada",
+          id: "fileka_muxaadarada",
+          type: "file"
+        }
+      })
     ])
   }
 ]
@@ -14576,44 +14822,6 @@ module.exports = g;
 
 /***/ }),
 
-/***/ "./resources/js/app.js":
-/*!*****************************!*\
-  !*** ./resources/js/app.js ***!
-  \*****************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-__webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
-
-window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
-Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
-var app = new Vue({
-  el: '#app'
-});
-
-/***/ }),
-
 /***/ "./resources/js/bootstrap.js":
 /*!***********************************!*\
   !*** ./resources/js/bootstrap.js ***!
@@ -14658,17 +14866,17 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 
 /***/ }),
 
-/***/ "./resources/js/components/ExampleComponent.vue":
-/*!******************************************************!*\
-  !*** ./resources/js/components/ExampleComponent.vue ***!
-  \******************************************************/
+/***/ "./resources/js/components/NewSermonForm.vue":
+/*!***************************************************!*\
+  !*** ./resources/js/components/NewSermonForm.vue ***!
+  \***************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ExampleComponent_vue_vue_type_template_id_299e239e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ExampleComponent.vue?vue&type=template&id=299e239e& */ "./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e&");
-/* harmony import */ var _ExampleComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ExampleComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js&");
+/* harmony import */ var _NewSermonForm_vue_vue_type_template_id_459e4af5___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./NewSermonForm.vue?vue&type=template&id=459e4af5& */ "./resources/js/components/NewSermonForm.vue?vue&type=template&id=459e4af5&");
+/* harmony import */ var _NewSermonForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NewSermonForm.vue?vue&type=script&lang=js& */ "./resources/js/components/NewSermonForm.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -14678,9 +14886,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _ExampleComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _ExampleComponent_vue_vue_type_template_id_299e239e___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _ExampleComponent_vue_vue_type_template_id_299e239e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _NewSermonForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _NewSermonForm_vue_vue_type_template_id_459e4af5___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _NewSermonForm_vue_vue_type_template_id_459e4af5___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -14690,63 +14898,95 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/ExampleComponent.vue"
+component.options.__file = "resources/js/components/NewSermonForm.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js&":
-/*!*******************************************************************************!*\
-  !*** ./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js& ***!
-  \*******************************************************************************/
+/***/ "./resources/js/components/NewSermonForm.vue?vue&type=script&lang=js&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/components/NewSermonForm.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ExampleComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_NewSermonForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./NewSermonForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/NewSermonForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_NewSermonForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e&":
-/*!*************************************************************************************!*\
-  !*** ./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e& ***!
-  \*************************************************************************************/
+/***/ "./resources/js/components/NewSermonForm.vue?vue&type=template&id=459e4af5&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/NewSermonForm.vue?vue&type=template&id=459e4af5& ***!
+  \**********************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_template_id_299e239e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ExampleComponent.vue?vue&type=template&id=299e239e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_template_id_299e239e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_NewSermonForm_vue_vue_type_template_id_459e4af5___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./NewSermonForm.vue?vue&type=template&id=459e4af5& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/NewSermonForm.vue?vue&type=template&id=459e4af5&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_NewSermonForm_vue_vue_type_template_id_459e4af5___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_template_id_299e239e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_NewSermonForm_vue_vue_type_template_id_459e4af5___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
-
-/***/ }),
-
-/***/ "./resources/sass/app.scss":
-/*!*********************************!*\
-  !*** ./resources/sass/app.scss ***!
-  \*********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 0:
-/*!*************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/app.scss ***!
-  \*************************************************************/
+/***/ "./resources/js/newSermon.js":
+/*!***********************************!*\
+  !*** ./resources/js/newSermon.js ***!
+  \***********************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _bootstrap__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+/* harmony import */ var _bootstrap__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_bootstrap__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_NewSermonForm_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/NewSermonForm.vue */ "./resources/js/components/NewSermonForm.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+var app = new Vue({
+  el: '#appId',
+  data: {
+    sheekhList: []
+  },
+  mounted: function mounted() {
+    var data = new FormData();
+
+    var _this = this;
+
+    data.append('api_token', window.api_token);
+    axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/api/sheekhs', data).then(function (res) {
+      if (res.data["isSuccess"] == true) {
+        _this.sheekhList = res.data["data"];
+      }
+    })["catch"](function (err) {
+      console.log('server error ', err.message);
+    });
+  },
+  methods: {},
+  components: {
+    'sermon-form': _components_NewSermonForm_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  }
+});
+
+/***/ }),
+
+/***/ 2:
+/*!*****************************************!*\
+  !*** multi ./resources/js/newSermon.js ***!
+  \*****************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/noorfarooqy/Sites/darularqam/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/noorfarooqy/Sites/darularqam/resources/sass/app.scss */"./resources/sass/app.scss");
+module.exports = __webpack_require__(/*! /Users/noorfarooqy/Sites/darularqam/resources/js/newSermon.js */"./resources/js/newSermon.js");
 
 
 /***/ })

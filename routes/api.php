@@ -14,8 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:api')->group(function () {
+
+    Route::post('/new/{book_id}', 'MainController@AddLessonToDB');
+    Route::post('/muxaadaro/new', 'MainController@AddSermonToDB');
 });
 
 Route::post('/sheekhs', 'MainController@openAPIGetSheekhList');
@@ -23,3 +25,4 @@ Route::post('/sheekhs/{sheekh_id}', 'MainController@openAPIGetGivenSheekh');
 Route::post('/books', 'MainController@openAPIGetBooksList');
 Route::post('/books/{book_id}', 'MainController@openAPIGetGivenBook');
 Route::post('/lessons', 'MainController@openAPIGetLessonsList');
+Route::post('/sermons', 'MainController@openAPISermonsList');

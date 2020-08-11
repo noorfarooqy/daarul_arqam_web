@@ -271,8 +271,8 @@
                         <span>Sheekhs</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="maps-google.html">Sheekh Cusub</a></li>
-                        <li><a href="maps-vector.html">Sheekh list</a></li>
+                        <li><a href="/sheekh/new">Sheekh Cusub</a></li>
+                        <li><a href="/sheekh/list">Sheekh list</a></li>
                     </ul>
                 </li>
 
@@ -283,8 +283,8 @@
                         <span>Buugaagta</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="maps-google.html">Buug cusub</a></li>
-                        <li><a href="maps-vector.html">Liiska buugaagta</a></li>
+                        <li><a href="/books/new">Buug cusub</a></li>
+                        <li><a href="/books/list">Liiska buugaagta</a></li>
                     </ul>
                 </li>
                 <li>
@@ -293,10 +293,21 @@
                         <span>Casharada</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="maps-google.html">Cashar cusub</a></li>
-                        <li><a href="maps-vector.html">Liiska Casharada</a></li>
+                        <li><a href="/books/list">Cashar cusub</a></li>
+                        <li><a href="/casharada/list">Liiska Casharada</a></li>
                     </ul>
                 </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="fas fa-pen"></i>
+                        <span>Muxaadaro</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="/muxaadaro/new">Muxaadaro cusub</a></li>
+                        <li><a href="/muxaadaro/list">Liiska Muxaadarooyinka</a></li>
+                    </ul>
+                </li>
+
 
 
 
@@ -332,7 +343,10 @@
                             </div>
                         </div>
                     </div>
-                    @yield('content')
+                    <div id="appId">
+                        @yield('content')
+                    </div>
+                    
                     <!-- end page title -->
 
                 </div>

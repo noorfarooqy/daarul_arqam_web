@@ -27,7 +27,7 @@ Casharada
                                             <tr>
                                                 <th>Buuga</th>
                                                 <th>Cinwaanka</th>
-                                                <th>Sheekha Aqriyay</th>
+                                                <th>Cinwaanka casharka</th>
                                                 <th>File size</th>
                                                 <th>Date</th>
                                             </tr>
@@ -46,7 +46,7 @@ Casharada
                                                         Your browser does not support the audio element.
                                                     </audio>
                                                 </td>
-                                                <td>{{$lesson->SheekhInfo->sheekh_name}}</td>
+                                                <td>{{$lesson->lesson_title}}</td>
                                                 <td>{{round($lesson->file_size/1000000, 2)}} MB</td>
                                                 <td>{{$lesson->updated_at->format('y-m-d')}}</td>
                                             </tr>
