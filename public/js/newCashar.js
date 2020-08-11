@@ -2011,6 +2011,8 @@ __webpack_require__.r(__webpack_exports__);
         if (res.data["isSuccess"] == false) {
           _this.errorMessage = JSON.stringify(res.data["errorMessage"]);
           _this.hasError = true;
+          _this.isLoading = false;
+          _this.buttonText = "Add Sermon";
         } else {
           _this.successMessage = "successfully completed lesson";
           _this.isSuccess = true;
@@ -2024,6 +2026,8 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (err) {
         _this.errorMessage = err.message;
         _this.hasError = true;
+        _this.isLoading = false;
+        _this.buttonText = "Add Sermon";
       });
     }
   },
