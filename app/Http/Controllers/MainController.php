@@ -282,8 +282,7 @@ class MainController extends Controller
 
     public function openAPIGetSheekhList()
     {
-
-        $sheekhs = SheekhsModel::get();
+        $sheekhs = SheekhsModel::latest()->get();
         foreach ($sheekhs as $key => $sheekh) {
             $sheekhs[$key]["book_count"] = $sheekh->BookCount();
             $sheekhs[$key]["lesson_count"] = $sheekh->Casharada->count();
@@ -299,7 +298,7 @@ class MainController extends Controller
 
     public function openAPIGetBooksList()
     {
-        $books = BooksModel::get();
+        $books = BooksModel::latest()->get();
 
         foreach ($books as $key => $book) {
             $book->SheekhInfo;
@@ -314,7 +313,7 @@ class MainController extends Controller
     }
     public function openAPIGetLessonsList()
     {
-        $lessons = LessonsModel::with('SheekhInfo', 'BookInfo')->get();
+        $lessons = LessonsModel::with('SheekhInfo', 'BookInfo')->latest()->get();
 
         return FacadesResponse::json([
             "errorMessage" => null,
@@ -325,7 +324,7 @@ class MainController extends Controller
 
     public function openAPISermonsList()
     {
-        $sermons = SermonsModel::with('SheekhInfo')->get();
+        $sermons = SermonsModel::with('SheekhInfo')->latest()->get();
 
         return FacadesResponse::json([
             "errorMessage" => null,

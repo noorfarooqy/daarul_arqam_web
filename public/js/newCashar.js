@@ -1989,6 +1989,11 @@ __webpack_require__.r(__webpack_exports__);
       this.successMessage = null;
     },
     submitForm: function submitForm($event) {
+      if (this.Lesson.cinwaankaCasharka == null || this.Lesson.cinwaankaCasharka.length <= 5) {
+        alert("Cinwaanka casharka waa muhiim waa inaad qorto ama kabadan yahay 5 xaraf");
+        return;
+      }
+
       this.resetMessages();
       this.buttonText = "Loading...";
       this.isLoading = true;
