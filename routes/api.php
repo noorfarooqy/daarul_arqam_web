@@ -18,6 +18,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::post('/lesson/new/{book_id}', 'MainController@AddLessonToDB');
     Route::post('/muxaadaro/new', 'MainController@AddSermonToDB');
+    Route::post('/lesson/edit', 'MainController@EditLesson');
 });
 
 Route::post('/sheekhs', 'MainController@openAPIGetSheekhList');

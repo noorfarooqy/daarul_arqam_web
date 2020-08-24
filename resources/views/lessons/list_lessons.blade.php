@@ -46,7 +46,11 @@ Casharada
                                                         Your browser does not support the audio element.
                                                     </audio>
                                                 </td>
-                                                <td>{{$lesson->lesson_title}}</td>
+                                                <td>
+                                                    <a href="/casharada/edit/{{$lesson->book_id}}/{{$lesson->id}}">
+                                                        {{strlen($lesson->lesson_title) > 20 ? substr($lesson->lesson_title,0,20).'...' : $lesson->lesson_title}}
+                                                    </a>
+                                                </td>
                                                 <td>{{round($lesson->file_size/1000000, 2)}} MB</td>
                                                 <td>{{$lesson->updated_at->format('y-m-d')}}</td>
                                             </tr>

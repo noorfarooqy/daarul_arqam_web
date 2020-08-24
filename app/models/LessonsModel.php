@@ -37,6 +37,20 @@ class LessonsModel extends Model
             return false;
         }
     }
+    public function updateLesson($data, $book, $lesson)
+    {
+        try {
+            return $lesson->update([
+                "lesson_title" => $data["cinwaanka_casharka"],
+                "lesson_number" => isset($data["numbarka_casharka"]) ? $data["numbarka_casharka"] : ($lesson->lesson_number),
+                "lesson_audio_url" => isset($data["file_casharka"]) ? $data["file_casharka"]  : $lesson->lesson_audio_url,
+                "file_size" => isset($data["file_size"]) ? $data["file_size"] : $lesson->file_size,
+            ]);
+        } catch (\Throwable $th) {
+            $this->errorMessage = $th->getMessage();
+            return false;
+        }
+    }
 
     public function SheekhInfo()
     {

@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -1899,19 +1899,15 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/NewSermonForm.vue?vue&type=script&lang=js&":
-/*!************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/NewSermonForm.vue?vue&type=script&lang=js& ***!
-  \************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/EditLessonForm.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/EditLessonForm.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
 //
 //
 //
@@ -1974,18 +1970,13 @@ __webpack_require__.r(__webpack_exports__);
       isSuccess: false,
       successMessage: null,
       hasError: false,
-      errorMessage: null,
-      sermonTitle: null,
-      sheekhId: -1,
-      sermonLocation: null
+      errorMessage: null
     };
   },
   mounted: function mounted() {
-    if (window.lessonNumber != undefined && window.lessonNumber != null) {
-      console.log("I am " + window.lessonNumber);
+    if (window.lessonId != null && window.lessonNumber != null && window.bookId != null) {
       this.lessonNumber = window.lessonNumber;
-      window.lessonNumber = parseInt(window.lessonNumber) + 1;
-      this.Lesson.setCasharNumber(this.lessonNumber);
+      this.Lesson.cinwaankaCasharka = window.lessonTitle;
     }
   },
   methods: {
@@ -1995,17 +1986,22 @@ __webpack_require__.r(__webpack_exports__);
       this.isSuccess = false;
       this.successMessage = null;
     },
-    submitForm: function submitForm($event) {
+    editLesson: function editLesson($event) {
+      if (this.Lesson.cinwaankaCasharka == null || this.Lesson.cinwaankaCasharka.length <= 5) {
+        alert("Cinwaanka casharka waa muhiim waa inaad qorto ama kabadan yahay 5 xaraf");
+        return;
+      }
+
       this.resetMessages();
-      console.log("we are here ");
       this.buttonText = "Loading...";
       this.isLoading = true;
       var data = new FormData();
+      data.append("cinwaanka_casharka", this.Lesson.cinwaankaCasharka);
+      data.append("numbarka_casharka", this.lessonNumber);
+      data.append("lesson", window.lessonId);
+      data.append("book", window.bookId);
+      if (document.getElementById("fileka_casharka").files[0] != undefined) data.append("fileka_casharka", document.getElementById("fileka_casharka").files[0]);
       data.append("api_token", window.api_token);
-      data.append("cinwaanka_muxaadara", this.sermonTitle);
-      data.append("goobta_muxaadarada", this.sermonLocation);
-      data.append("fileka_muxaadarada", document.getElementById("fileka_muxaadarada").files[0]);
-      data.append("sheekha", this.sheekhId);
       console.log(data);
 
       var _this = this;
@@ -2016,19 +2012,19 @@ __webpack_require__.r(__webpack_exports__);
           _this.buttonText = "loading... " + percentCompleted + "%";
         }
       };
-      axios.post("/api/muxaadaro/new", data, config).then(function (res) {
+      axios.post("/api/lesson/edit", data, config).then(function (res) {
         if (res.data["isSuccess"] == false) {
           _this.errorMessage = JSON.stringify(res.data["errorMessage"]);
           _this.hasError = true;
           _this.isLoading = false;
           _this.buttonText = "Add Sermon";
         } else {
-          _this.successMessage = "successfully completed muxaadarada";
+          _this.successMessage = "successfully completed lesson";
           _this.isSuccess = true;
 
-          _this.$emit("completed-sermon");
+          _this.$emit("completed-lesson");
 
-          _this.buttonText = "Add Sermon";
+          _this.buttonText = "Add Lesson";
           _this.isLoading = false;
         }
       })["catch"](function (err) {
@@ -2037,14 +2033,9 @@ __webpack_require__.r(__webpack_exports__);
         _this.isLoading = false;
         _this.buttonText = "Add Sermon";
       });
-    },
-    setSelectedSheekh: function setSelectedSheekh(event) {
-      console.log(event);
-      var selectedIndex = event.target.selectedIndex;
-      this.sheekhId = event.target.options[selectedIndex].value;
     }
   },
-  props: ["sheekhList"]
+  props: ["Lesson"]
 });
 
 /***/ }),
@@ -2517,10 +2508,10 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/NewSermonForm.vue?vue&type=template&id=459e4af5&":
-/*!****************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/NewSermonForm.vue?vue&type=template&id=459e4af5& ***!
-  \****************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/EditLessonForm.vue?vue&type=template&id=999aa01e&":
+/*!*****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/EditLessonForm.vue?vue&type=template&id=999aa01e& ***!
+  \*****************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2554,85 +2545,58 @@ var render = function() {
         : _vm._e(),
       _vm._v(" "),
       _c("div", { staticClass: "mb-4" }, [
-        _c(
-          "select",
-          {
-            staticClass: "form-control",
-            on: {
-              change: function($event) {
-                $event.preventDefault()
-                return _vm.setSelectedSheekh($event)
-              }
-            }
-          },
-          [
-            _c("option", { attrs: { value: "-1" } }, [
-              _vm._v("Sheekha soo jeediyay muxaadarada")
-            ]),
-            _vm._v(" "),
-            _vm._l(_vm.sheekhList, function(sheekh, skey) {
-              return _c(
-                "option",
-                { key: skey, domProps: { value: sheekh.id } },
-                [_vm._v(_vm._s(sheekh.sheekh_name))]
-              )
-            })
-          ],
-          2
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "mb-4" }, [
         _c("input", {
           directives: [
             {
               name: "model",
               rawName: "v-model",
-              value: _vm.sermonTitle,
-              expression: "sermonTitle"
+              value: _vm.Lesson.cinwaankaCasharka,
+              expression: "Lesson.cinwaankaCasharka"
             }
           ],
           staticClass: "form-control",
           attrs: {
-            name: "cinwaanka_muxaadarada",
+            name: "cinwaanka_casharka",
             type: "text",
-            placeholder: "Cinwaanka Muxaadarada"
+            placeholder: "Cinwaanka casharka"
           },
-          domProps: { value: _vm.sermonTitle },
+          domProps: { value: _vm.Lesson.cinwaankaCasharka },
           on: {
             input: function($event) {
               if ($event.target.composing) {
                 return
               }
-              _vm.sermonTitle = $event.target.value
+              _vm.$set(_vm.Lesson, "cinwaankaCasharka", $event.target.value)
             }
           }
         })
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "mb-4" }, [
+        _c("label", { attrs: { for: "" } }, [_vm._v("Numberka casharka")]),
+        _vm._v(" "),
         _c("input", {
           directives: [
             {
               name: "model",
               rawName: "v-model",
-              value: _vm.sermonLocation,
-              expression: "sermonLocation"
+              value: _vm.lessonNumber,
+              expression: "lessonNumber"
             }
           ],
           staticClass: "form-control",
           attrs: {
-            name: "goobga_muxaadara",
-            type: "text",
-            placeholder: "Goobta Muxaadarada lagu qabtay"
+            name: "numbarka_casharka",
+            type: "number",
+            placeholder: "Numberka casharka"
           },
-          domProps: { value: _vm.sermonLocation },
+          domProps: { value: _vm.lessonNumber },
           on: {
             input: function($event) {
               if ($event.target.composing) {
                 return
               }
-              _vm.sermonLocation = $event.target.value
+              _vm.lessonNumber = $event.target.value
             }
           }
         })
@@ -2649,7 +2613,7 @@ var render = function() {
             on: {
               click: function($event) {
                 $event.preventDefault()
-                return _vm.submitForm($event)
+                return _vm.editLesson($event)
               }
             }
           },
@@ -2674,14 +2638,15 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "mb-4" }, [
-      _c("label", { attrs: { for: "" } }, [_vm._v("Fileka muxaadarada")]),
+      _c("label", { attrs: { for: "" } }, [_vm._v("Fileka Casharka")]),
       _vm._v(" "),
       _c("input", {
         staticClass: "form-control",
         attrs: {
-          name: "fileka_muxaadarada",
-          id: "fileka_muxaadarada",
-          type: "file"
+          name: "fileka_casharka",
+          id: "fileka_casharka",
+          type: "file",
+          placeholder: "Numberka casharka"
         }
       })
     ])
@@ -14866,17 +14831,63 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 
 /***/ }),
 
-/***/ "./resources/js/components/NewSermonForm.vue":
-/*!***************************************************!*\
-  !*** ./resources/js/components/NewSermonForm.vue ***!
-  \***************************************************/
+/***/ "./resources/js/classes/Lesson.js":
+/*!****************************************!*\
+  !*** ./resources/js/classes/Lesson.js ***!
+  \****************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _NewSermonForm_vue_vue_type_template_id_459e4af5___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./NewSermonForm.vue?vue&type=template&id=459e4af5& */ "./resources/js/components/NewSermonForm.vue?vue&type=template&id=459e4af5&");
-/* harmony import */ var _NewSermonForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NewSermonForm.vue?vue&type=script&lang=js& */ "./resources/js/components/NewSermonForm.vue?vue&type=script&lang=js&");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Lesson; });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Lesson = /*#__PURE__*/function () {
+  function Lesson() {
+    _classCallCheck(this, Lesson);
+
+    this.casharId = -1;
+    this.cinwaankaCasharka = null;
+    this.sheekhId = -1;
+    this.bookId = -1;
+    this.numberkaCasharka = -1;
+    this.fileKaCasharka = null;
+    this.hasError = false;
+    this.errorMessage = null;
+    this.isSuccess = false;
+    this.successMessage = null;
+  }
+
+  _createClass(Lesson, [{
+    key: "setCasharNumber",
+    value: function setCasharNumber(number) {
+      this.numberkaCasharka = number;
+    }
+  }]);
+
+  return Lesson;
+}();
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/EditLessonForm.vue":
+/*!****************************************************!*\
+  !*** ./resources/js/components/EditLessonForm.vue ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _EditLessonForm_vue_vue_type_template_id_999aa01e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EditLessonForm.vue?vue&type=template&id=999aa01e& */ "./resources/js/components/EditLessonForm.vue?vue&type=template&id=999aa01e&");
+/* harmony import */ var _EditLessonForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditLessonForm.vue?vue&type=script&lang=js& */ "./resources/js/components/EditLessonForm.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -14886,9 +14897,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _NewSermonForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _NewSermonForm_vue_vue_type_template_id_459e4af5___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _NewSermonForm_vue_vue_type_template_id_459e4af5___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _EditLessonForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _EditLessonForm_vue_vue_type_template_id_999aa01e___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _EditLessonForm_vue_vue_type_template_id_999aa01e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -14898,47 +14909,47 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/NewSermonForm.vue"
+component.options.__file = "resources/js/components/EditLessonForm.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/NewSermonForm.vue?vue&type=script&lang=js&":
-/*!****************************************************************************!*\
-  !*** ./resources/js/components/NewSermonForm.vue?vue&type=script&lang=js& ***!
-  \****************************************************************************/
+/***/ "./resources/js/components/EditLessonForm.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/components/EditLessonForm.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_NewSermonForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./NewSermonForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/NewSermonForm.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_NewSermonForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditLessonForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./EditLessonForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/EditLessonForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditLessonForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/components/NewSermonForm.vue?vue&type=template&id=459e4af5&":
-/*!**********************************************************************************!*\
-  !*** ./resources/js/components/NewSermonForm.vue?vue&type=template&id=459e4af5& ***!
-  \**********************************************************************************/
+/***/ "./resources/js/components/EditLessonForm.vue?vue&type=template&id=999aa01e&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/components/EditLessonForm.vue?vue&type=template&id=999aa01e& ***!
+  \***********************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_NewSermonForm_vue_vue_type_template_id_459e4af5___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./NewSermonForm.vue?vue&type=template&id=459e4af5& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/NewSermonForm.vue?vue&type=template&id=459e4af5&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_NewSermonForm_vue_vue_type_template_id_459e4af5___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditLessonForm_vue_vue_type_template_id_999aa01e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./EditLessonForm.vue?vue&type=template&id=999aa01e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/EditLessonForm.vue?vue&type=template&id=999aa01e&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditLessonForm_vue_vue_type_template_id_999aa01e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_NewSermonForm_vue_vue_type_template_id_459e4af5___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditLessonForm_vue_vue_type_template_id_999aa01e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
 /***/ }),
 
-/***/ "./resources/js/newSermon.js":
-/*!***********************************!*\
-  !*** ./resources/js/newSermon.js ***!
-  \***********************************/
+/***/ "./resources/js/editCashar.js":
+/*!************************************!*\
+  !*** ./resources/js/editCashar.js ***!
+  \************************************/
 /*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -14946,47 +14957,37 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _bootstrap__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 /* harmony import */ var _bootstrap__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_bootstrap__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _components_NewSermonForm_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/NewSermonForm.vue */ "./resources/js/components/NewSermonForm.vue");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _classes_Lesson__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./classes/Lesson */ "./resources/js/classes/Lesson.js");
+/* harmony import */ var _components_EditLessonForm_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/EditLessonForm.vue */ "./resources/js/components/EditLessonForm.vue");
 
 
 
 var app = new Vue({
   el: '#appId',
   data: {
-    sheekhList: []
+    Lessons: [new _classes_Lesson__WEBPACK_IMPORTED_MODULE_1__["default"]()]
   },
-  mounted: function mounted() {
-    var data = new FormData();
-
-    var _this = this;
-
-    data.append('api_token', window.api_token);
-    axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/api/sheekhs', data).then(function (res) {
-      if (res.data["isSuccess"] == true) {
-        _this.sheekhList = res.data["data"];
-      }
-    })["catch"](function (err) {
-      console.log('server error ', err.message);
-    });
+  mounted: function mounted() {},
+  methods: {
+    AddNewLesson: function AddNewLesson() {
+      this.Lessons.push(new _classes_Lesson__WEBPACK_IMPORTED_MODULE_1__["default"]());
+    }
   },
-  methods: {},
   components: {
-    'sermon-form': _components_NewSermonForm_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+    'lesson-form': _components_EditLessonForm_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   }
 });
 
 /***/ }),
 
-/***/ 3:
-/*!*****************************************!*\
-  !*** multi ./resources/js/newSermon.js ***!
-  \*****************************************/
+/***/ 2:
+/*!******************************************!*\
+  !*** multi ./resources/js/editCashar.js ***!
+  \******************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/noorfarooqy/Sites/darularqam/resources/js/newSermon.js */"./resources/js/newSermon.js");
+module.exports = __webpack_require__(/*! /Users/noorfarooqy/Sites/darularqam/resources/js/editCashar.js */"./resources/js/editCashar.js");
 
 
 /***/ })
