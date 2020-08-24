@@ -28,24 +28,24 @@ class MainController extends Controller
 
     public function ListSheekhs(Request $request)
     {
-        $sheekhs = SheekhsModel::get();
+        $sheekhs = SheekhsModel::latest()->get();
         return view('sheekhs.list_sheekhs', compact('sheekhs'));
     }
 
     public function ListBooks(Request $request)
     {
-        $books = BooksModel::get();
+        $books = BooksModel::latest()->get();
         return view('books.list_books', compact('books'));
     }
     public function ListLesson(Request $request)
     {
-        $lessons = LessonsModel::get();
+        $lessons = LessonsModel::latest()->get();
         return view('lessons.list_lessons', compact('lessons'));
     }
 
     public function ListSermons(Request $request)
     {
-        $muxaadarooyinka = SermonsModel::get();
+        $muxaadarooyinka = SermonsModel::latest()->get();
         return view('sermons.list_sermons', compact('muxaadarooyinka'));
     }
 
