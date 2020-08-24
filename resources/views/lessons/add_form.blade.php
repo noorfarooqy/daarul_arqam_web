@@ -91,5 +91,8 @@ Casharada
     window.lessonNumber = "{{($book->Casharada->count()+1)}}";
 
 </script>
-<script src="/js/newCashar.js" type="text/javascript"></script>
+@php
+    $hash = hash('md5', public_path('/js/newCashar.js'));
+@endphp
+<script src="/js/newCashar.js?{{$hash}}" type="text/javascript"></script>
 @endsection
