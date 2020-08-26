@@ -45,7 +45,7 @@ class MainController extends Controller
 
     public function ListSermons(Request $request)
     {
-        $muxaadarooyinka = SermonsModel::latest()->get();
+        $muxaadarooyinka = SermonsModel::whereHas('SheekhInfo')->latest()->get();
         return view('sermons.list_sermons', compact('muxaadarooyinka'));
     }
 
@@ -428,7 +428,7 @@ class MainController extends Controller
 
     public function openAPISermonsList()
     {
-        $sermons = SermonsModel::with('SheekhInfo')->latest()->get();
+        $sermons = SermonsModel::whereHas('SheekhInfo')->latest()->get();
 
         return FacadesResponse::json([
             "errorMessage" => null,
