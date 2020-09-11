@@ -430,6 +430,10 @@ class MainController extends Controller
     {
         $sermons = SermonsModel::whereHas('SheekhInfo')->latest()->get();
 
+        foreach ($sermons as $key => $sermon) {
+            $sermon->sheekhInfo;
+        }
+
         return FacadesResponse::json([
             "errorMessage" => null,
             "isSuccess" => true,
