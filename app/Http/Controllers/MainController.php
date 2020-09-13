@@ -417,7 +417,7 @@ class MainController extends Controller
     }
     public function openAPIGetLessonsList()
     {
-        $lessons = LessonsModel::with('SheekhInfo', 'BookInfo')->latest()->get();
+        $lessons = LessonsModel::with('SheekhInfo', 'BookInfo')->latest()->OrderBy('lesson_number')->get();
 
         return FacadesResponse::json([
             "errorMessage" => null,
