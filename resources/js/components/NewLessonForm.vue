@@ -30,9 +30,10 @@
       <label for>Fileka Casharka</label>
       <input
         class="form-control"
-        name="fileka_casharka"
+        :name="'file_'+Lesson.filename"
         id="fileka_casharka"
         type="file"
+        :ref="'fileka_casharka'"
         placeholder="Numberka casharka"
       />
     </div>
@@ -95,10 +96,9 @@ export default {
       var data = new FormData();
       data.append("cinwaanka_casharka", this.Lesson.cinwaankaCasharka);
       data.append("numbarka_casharka", this.lessonNumber);
-      data.append(
-        "fileka_casharka",
-        document.getElementById("fileka_casharka").files[0]
-      );
+      // var cfiles = document.getElementById("file_" + this.Lesson.filename)
+      var cfiles = this.$refs.fileka_casharka.files[0];
+      data.append("fileka_casharka", cfiles);
       data.append("api_token", window.api_token);
       console.log(data);
       var _this = this;
@@ -126,6 +126,7 @@ export default {
             _this.buttonText = "Add Lesson";
             _this.isLoading = false;
             _this.Lesson.cinwaankaCasharka = "";
+            _this.Lesson.fileKaCasharka = null;
           }
         })
         .catch(function(err) {

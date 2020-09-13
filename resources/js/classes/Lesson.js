@@ -7,6 +7,7 @@ export default class Lesson {
         this.bookId = -1;
         this.numberkaCasharka = -1;
         this.fileKaCasharka = null;
+        this.filename = Date.now() + 'df' + Math.round(Math.random() * 1000);
 
         this.hasError = false;
         this.errorMessage = null;

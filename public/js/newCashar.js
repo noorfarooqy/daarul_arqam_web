@@ -1959,6 +1959,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1999,8 +2000,10 @@ __webpack_require__.r(__webpack_exports__);
       this.isLoading = true;
       var data = new FormData();
       data.append("cinwaanka_casharka", this.Lesson.cinwaankaCasharka);
-      data.append("numbarka_casharka", this.lessonNumber);
-      data.append("fileka_casharka", document.getElementById("fileka_casharka").files[0]);
+      data.append("numbarka_casharka", this.lessonNumber); // var cfiles = document.getElementById("file_" + this.Lesson.filename)
+
+      var cfiles = this.$refs.fileka_casharka.files[0];
+      data.append("fileka_casharka", cfiles);
       data.append("api_token", window.api_token);
       console.log(data);
 
@@ -2027,6 +2030,7 @@ __webpack_require__.r(__webpack_exports__);
           _this.buttonText = "Add Lesson";
           _this.isLoading = false;
           _this.Lesson.cinwaankaCasharka = "";
+          _this.Lesson.fileKaCasharka = null;
         }
       })["catch"](function (err) {
         _this.errorMessage = err.message;
@@ -2603,7 +2607,20 @@ var render = function() {
         })
       ]),
       _vm._v(" "),
-      _vm._m(0),
+      _c("div", { staticClass: "mb-4" }, [
+        _c("label", { attrs: { for: "" } }, [_vm._v("Fileka Casharka")]),
+        _vm._v(" "),
+        _c("input", {
+          ref: "fileka_casharka",
+          staticClass: "form-control",
+          attrs: {
+            name: "file_" + _vm.Lesson.filename,
+            id: "fileka_casharka",
+            type: "file",
+            placeholder: "Numberka casharka"
+          }
+        })
+      ]),
       _vm._v(" "),
       _c("div", { staticClass: "mb-4" }, [
         _c(
@@ -2633,26 +2650,7 @@ var render = function() {
     ]
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "mb-4" }, [
-      _c("label", { attrs: { for: "" } }, [_vm._v("Fileka Casharka")]),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "form-control",
-        attrs: {
-          name: "fileka_casharka",
-          id: "fileka_casharka",
-          type: "file",
-          placeholder: "Numberka casharka"
-        }
-      })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -14858,6 +14856,7 @@ var Lesson = /*#__PURE__*/function () {
     this.bookId = -1;
     this.numberkaCasharka = -1;
     this.fileKaCasharka = null;
+    this.filename = Date.now() + 'df' + Math.round(Math.random() * 1000);
     this.hasError = false;
     this.errorMessage = null;
     this.isSuccess = false;
