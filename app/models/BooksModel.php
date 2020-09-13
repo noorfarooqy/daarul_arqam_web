@@ -48,6 +48,6 @@ class BooksModel extends Model
 
     public function Casharada()
     {
-        return $this->hasMany(LessonsModel::class, 'book_id', 'id');
+        return $this->hasMany(LessonsModel::class, 'book_id', 'id')->orderBy('lesson_number');
     }
 }
