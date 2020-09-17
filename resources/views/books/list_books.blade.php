@@ -10,7 +10,7 @@ Buug
 
 @section('content')
 <div class="row">
-    <div class="col-md-10 col-lg-10">
+    <div class="col-md-12 col-lg-12">
         
         <div class="row">
                         <div class="col-12">
@@ -26,6 +26,7 @@ Buug
                                         <thead>
                                             <tr>
                                                 <th>Buuga</th>
+                                                <th>Category</th>
                                                 <th>Sheekha aqrinayo</th>
                                                 <th>Qoraaga buuga</th>
                                                 <th>Dhamaadka Casharada</th>
@@ -39,6 +40,17 @@ Buug
                                                 <tr>
                                                 <td>
                                                     <a href="/casharada/new/{{$book->id}}">{{$book->book_name}}</a>
+                                                </td>
+                                                <td>
+                                                    
+                                                        @if ($book->Category == null)
+                                                            No category
+                                                        @else
+                                                        <a href="/books/category/{{$book->category}}">
+                                                            {{$book->Category->category_name}}
+                                                        </a>
+                                                        @endif
+                                                    
                                                 </td>
                                                 <td>{{$book->SheekhInfo->sheekh_name}}</td>
                                                 <td>{{$book->book_written_by}}</td>
@@ -62,7 +74,7 @@ Buug
                     </div>
 
     </div>
-    <div class="col-md-2 col-lg-2"></div>
+
 </div>
 
 @endsection

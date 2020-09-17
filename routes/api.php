@@ -27,3 +27,6 @@ Route::post('/books', 'MainController@openAPIGetBooksList');
 Route::post('/books/{book_id}', 'MainController@openAPIGetGivenBook');
 Route::post('/lessons', 'MainController@openAPIGetLessonsList');
 Route::post('/sermons', 'MainController@openAPISermonsList');
+Route::post('/categories', 'MainController@getCategoriesList');
+Route::post('/sheekhs/categories/{sheekh_id}', 'MainController@openAPIGetSheekhBookCategories');
+Route::post('/sheekhs/category/{sheekh_id}/{category_id}', 'MainController@openAPIgetGivenSheekhCategoryBooks');

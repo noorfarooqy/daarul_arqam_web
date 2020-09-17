@@ -18,7 +18,8 @@ class BooksModel extends Model
         "book_num_pages",
         "book_publish_date",
         "book_is_ongoing",
-        "book_icon"
+        "book_icon",
+        "category"
     ];
 
     public $errorMessage = null;
@@ -34,6 +35,7 @@ class BooksModel extends Model
                 "book_num_pages"  => isset($data["tirada_saxfada_buuga"]) ? $data["tirada_saxfada_buuga"] : null,
                 "book_publish_date"  => isset($data["taariikhda_buuga_la_qoray"]) ? $data["taariikhda_buuga_la_qoray"] : null,
                 "book_is_ongoing"  => isset($data["buuga_casharkiisa_socdo"]) ? $data["buuga_casharkiisa_socdo"] : false,
+                "category" => isset($data["book_category"]) ? $data["book_category"] : 0
             ]);
         } catch (\Throwable $th) {
             $this->errorMessage = $th->getMessage();
@@ -49,5 +51,10 @@ class BooksModel extends Model
     public function Casharada()
     {
         return $this->hasMany(LessonsModel::class, 'book_id', 'id')->orderBy('lesson_number');
+    }
+
+    public function Category()
+    {
+        return $this->belongsTo(LessonCategoriesModel::class, 'category', 'id');
     }
 }

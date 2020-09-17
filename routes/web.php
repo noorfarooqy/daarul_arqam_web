@@ -29,6 +29,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/new', 'MainController@AddBookForm');
         Route::get('/list', 'MainController@ListBooks');
         Route::post('/new', 'MainController@AddBookToDB');
+        Route::get('/category', 'MainController@openCategoryPage');
+        Route::get('/category/{cat_id}', 'MainController@openBooksFromCategory');
+        Route::post('/category', 'MainController@AddCategoryBook');
     });
     Route::prefix('casharada')->group(function () {
         Route::get('/new/{book_id}', 'MainController@AddLessonForm');

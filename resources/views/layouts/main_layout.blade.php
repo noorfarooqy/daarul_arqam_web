@@ -299,12 +299,22 @@
                 </li>
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="fas fa-pen"></i>
+                        <i class="fas fa-file-audio"></i>
                         <span>Muxaadaro</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="/muxaadaro/new">Muxaadaro cusub</a></li>
                         <li><a href="/muxaadaro/list">Liiska Muxaadarooyinka</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="fas fa-vials"></i>
+                        <span>Categories</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="/books/category">New Category</a></li>
+                        <li><a href="/books/category">List categories</a></li>
                     </ul>
                 </li>
 

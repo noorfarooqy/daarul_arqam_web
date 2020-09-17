@@ -55,6 +55,25 @@ Buug
                         {{$message}}
                     </div>
                     @enderror
+
+                    <div class="mb-4">
+                        <select name="book_category" class="form-control" id="">
+                            <option value="-1" >Qeybta buugga</option>
+                            @foreach ($categories as $category)
+                                
+                                @if (old('book_category') == $category->id)
+                                    <option value="{{$category->id}}" selected>{{$category->category_name}}</option>
+                                @else
+                                    <option value="{{$category->id}}">{{$category->category_name}}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+                    @error('book_category')
+                    <div class="alert alert-danger">
+                        {{$message}}
+                    </div>
+                    @enderror
                     <div class="mb-4">
                         <input class="form-control" name="qoraaga_buuga" type="text" placeholder="Qoraaga buuga"
                             value="{{old('qoraaga_buuga')}}">

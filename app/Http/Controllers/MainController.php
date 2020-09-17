@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\models\BooksModel;
+use App\models\LessonCategoriesModel;
 use App\models\LessonsModel;
 use App\models\SermonsModel;
 use App\models\SheekhsModel;
@@ -37,6 +38,12 @@ class MainController extends Controller
         $books = BooksModel::latest()->get();
         return view('books.list_books', compact('books'));
     }
+
+    public function openBooksFromCategory(Request $request, $cat_id)
+    {
+        $books = BooksModel::where('category', $cat_id)->latest()->get();
+        return view('books.list_books', compact('books'));
+    }
     public function ListLesson(Request $request)
     {
         $lessons = LessonsModel::latest()->get();
@@ -52,7 +59,8 @@ class MainController extends Controller
     public function AddBookForm(Request $request)
     {
         $sheekhs = SheekhsModel::get();
-        return view('books.add_form', compact('sheekhs'));
+        $categories = LessonCategoriesModel::where('is_active', true)->get();
+        return view('books.add_form', compact('sheekhs', 'categories'));
     }
     public function AddLessonForm(Request $request, $book_id)
     {
@@ -81,6 +89,12 @@ class MainController extends Controller
         return view('lessons.edit_lesson', compact('lesson', 'book'));
     }
 
+    public function openCategoryPage(Request $request)
+    {
+        $categories = LessonCategoriesModel::where('is_active', true)->get();
+        return view('books.category', compact('categories'));
+    }
+
     public function AddBookToDB(Request $request)
     {
         $rules = [
@@ -90,7 +104,8 @@ class MainController extends Controller
             "faahfaahinta_buuga" => "nullable|string|max:255|min:3",
             "tirada_saxfada_buuga" => "nullable|numeric|max:999|min:1",
             "taariikhda_buuga_la_qoray" => "nullable|date|before:now",
-            "buuga_casharkiisa_socdo" => "nullable|in:on,off"
+            "buuga_casharkiisa_socdo" => "nullable|in:on,off",
+            "book_category" => "required|integer|exists:lesson_categories,id"
         ];
 
         $data =  $request->validate($rules);
@@ -103,6 +118,31 @@ class MainController extends Controller
             return Redirect::back()->with('success', 'successfully added new book');
 
         return Redirect::back()->withErrors(['errorMessage' => $BookModel->errorMessage]);
+    }
+    public function AddCategoryBook(Request $request)
+    {
+        $rules = [
+            "parent_category" => "required|integer",
+            "category_name" => "required|string|max:255|unique:lesson_categories,category_name",
+        ];
+
+        $data = $request->validate($rules);
+
+        $parent = null;
+        if ($request->parent_category != -1) {
+            $parent = LessonCategoriesModel::where('id', $request->parent_category)->get();
+            if ($parent == null || $parent->count() <= 0) {
+                return Redirect::back()->withErrors(['errorMessage' => 'The selected parent category is not valid']);
+            }
+        }
+
+        $CategoryModel = new LessonCategoriesModel();
+
+        $is_added = $CategoryModel->addCategory($data);
+        if ($is_added)
+            return Redirect::back()->with('success', 'successfully added new category');
+        else
+            return Redirect::back()->withErrors(['errorMessage' => $CategoryModel->errorMessage]);
     }
 
     public function AddSheekhToDB(Request $request)
@@ -399,6 +439,63 @@ class MainController extends Controller
             "data" => $sheekhs
         ]);
     }
+    public function openAPIGetSheekhBookCategories($sheekh_id)
+    {
+        $sheekh = SheekhsModel::where('id', $sheekh_id)->get();
+        $categories = LessonCategoriesModel::where('is_active', true)->whereDoesntHave('parent')->get();
+        // $_books = [];
+        if ($sheekh != null && $sheekh->count() > 0) {
+            // $books = BooksModel::where([
+            //     ['sheekh_id', $sheekh_id],
+            // ])->get();
+            foreach ($categories as $key => $category) {
+                // if ($category != null && $category->count() > 0) {
+                //     $category[0]->Books;
+                //     $category[0]->Parent;
+                //     array_push($categories, $category[0]);
+                // }
+                // unset($books[$key]->Casharada);
+                $category->Parent;
+                $_books = $category->Books->where('sheekh_id', $sheekh_id);
+                unset($categories[$key]->Books);
+                $categories[$key]->books = $_books;
+            }
+            // $sheekh = $sheekh[0];
+
+        }
+
+
+        return FacadesResponse::json([
+            "errorMessage" => null,
+            "isSuccess" => true,
+            "data" => $categories
+        ]);
+    }
+
+    public function openAPIgetGivenSheekhCategoryBooks($sheekh_id, $category_id)
+    {
+        $sheekh = SheekhsModel::where('id', $sheekh_id)->get();
+        if ($sheekh != null && $sheekh->count() > 0) {
+            $books = $sheekh[0]->Books->where('category', $category_id);
+
+            $_books = [];
+            foreach ($books as $key => $book) {
+                $books[$key]["lesson_count"] = $book->Casharada->count();
+                unset($books[$key]->Casharada);
+                array_push($_books, $book);
+            }
+
+            unset($sheekh[0]->Books);
+            $sheekh[0]->books = $_books;
+        }
+
+
+        return FacadesResponse::json([
+            "errorMessage" => null,
+            "isSuccess" => true,
+            "data" => $sheekh[0]
+        ]);
+    }
 
     public function openAPIGetBooksList()
     {
@@ -458,6 +555,20 @@ class MainController extends Controller
             "errorMessage" => null,
             "isSuccess" => true,
             "data" => $sheekh
+        ]);
+    }
+    public function getCategoriesList(Request $request)
+    {
+        $categories = LessonCategoriesModel::where('is_active', true)->get();
+
+        foreach ($categories as $key => $category) {
+            $books = $category->Books;
+            $parent = $category->Parent;
+        }
+        return FacadesResponse::json([
+            "errorMessage" => null,
+            "isSuccess" => true,
+            "data" => $categories
         ]);
     }
     public function openAPIGetGivenBook($book_id)
