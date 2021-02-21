@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TrendingContentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,6 +43,10 @@ Route::middleware('auth')->group(function () {
     Route::prefix('muxaadaro')->group(function () {
         Route::get('/new', 'MainController@AddSermonForm');
         Route::get('/list', 'MainController@ListSermons');
+    });
+    Route::prefix('trend')->group(function () {
+        Route::get('/', [TrendingContentController::class, 'viewTrendForm']);
+        Route::get('/list', [TrendingContentController::class, 'viewTrendList']);
     });
 });
 

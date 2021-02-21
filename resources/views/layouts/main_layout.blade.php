@@ -317,6 +317,16 @@
                         <li><a href="/books/category">List categories</a></li>
                     </ul>
                 </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="fas fa-list"></i>
+                        <span>Trending</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="/trend">New Trend</a></li>
+                        <li><a href="/trend/list">List Trends</a></li>
+                    </ul>
+                </li>
 
 
 

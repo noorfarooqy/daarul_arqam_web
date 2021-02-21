@@ -15,4 +15,5 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/newCashar.js', 'public/js')
     .js('resources/js/editCashar.js', 'public/js')
     .js('resources/js/newSermon.js', 'public/js')
+    .js('resources/js/trends.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css');
