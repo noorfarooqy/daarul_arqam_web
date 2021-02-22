@@ -75,7 +75,7 @@ class TrendingContentController extends Controller
             return ResponseParser::Parse(false, 'No active trends');
         }
         $trend->TrendingContent;
-        return $trend;
+        return ResponseParser::Parse(true, null, $trend);
     }
 
 
