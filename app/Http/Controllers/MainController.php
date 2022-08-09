@@ -65,8 +65,10 @@ class MainController extends Controller
     public function AddLessonForm(Request $request, $book_id)
     {
         $book = BooksModel::where('id', $book_id)->get();
-        if ($book == null || $book->count() <= 0)
+        if ($book == null || $book->count() <= 0) {
             abort(404);
+        }
+
         $book = $book[0];
         return view('lessons.add_form', compact('book'));
     }
@@ -82,7 +84,6 @@ class MainController extends Controller
         abort_if($lesson == null || $lesson->count() <= 0, 404);
         $book = BooksModel::where('id', $book_id)->get();
         abort_if($book == null || $book->count() <= 0, 404);
-
 
         $lesson = $lesson[0];
         $book = $book[0];
@@ -102,20 +103,22 @@ class MainController extends Controller
             "magaca_buuga" => "required|string|max:255",
             "qoraaga_buuga" => "nullable|string|max:255",
             "faahfaahinta_buuga" => "nullable|string|max:255|min:3",
-            "tirada_saxfada_buuga" => "nullable|numeric|max:999|min:1",
+            "tirada_saxfada_buuga" => "nullable|numeric|max:99999|min:1",
             "taariikhda_buuga_la_qoray" => "nullable|date|before:now",
             "buuga_casharkiisa_socdo" => "nullable|in:on,off",
-            "book_category" => "required|integer|exists:lesson_categories,id"
+            "book_category" => "required|integer|exists:lesson_categories,id",
         ];
 
-        $data =  $request->validate($rules);
+        $data = $request->validate($rules);
 
         $BookModel = new BooksModel();
+        $data["buuga_casharkiisa_socdo"] = $request->buuga_casharkiisa_socdo == "on";
 
         $success = $BookModel->addNewBook($data);
 
-        if ($success)
+        if ($success) {
             return Redirect::back()->with('success', 'successfully added new book');
+        }
 
         return Redirect::back()->withErrors(['errorMessage' => $BookModel->errorMessage]);
     }
@@ -139,10 +142,12 @@ class MainController extends Controller
         $CategoryModel = new LessonCategoriesModel();
 
         $is_added = $CategoryModel->addCategory($data);
-        if ($is_added)
+        if ($is_added) {
             return Redirect::back()->with('success', 'successfully added new category');
-        else
+        } else {
             return Redirect::back()->withErrors(['errorMessage' => $CategoryModel->errorMessage]);
+        }
+
     }
 
     public function AddSheekhToDB(Request $request)
@@ -150,17 +155,17 @@ class MainController extends Controller
         $rules = [
             "magaca_sheekha" => "required|string|max:255",
             "emailka_sheekha" => "required|email|max:75",
-            "wadanka_sheekha" => "required|string|max:75"
+            "wadanka_sheekha" => "required|string|max:75",
         ];
 
         $data = $request->validate($rules);
 
-
         $SheekhModel = new SheekhsModel();
 
         $success = $SheekhModel->addNewSheekh($data);
-        if ($success)
+        if ($success) {
             return Redirect::back()->with('success', 'successfully added new sheekh');
+        }
 
         return Redirect::back()->withErrors(['errorMessage' => $SheekhModel->errorMessage]);
     }
@@ -169,8 +174,10 @@ class MainController extends Controller
     {
 
         $book = BooksModel::where('id', $book_id)->get();
-        if ($book == null || $book->count() <= 0)
+        if ($book == null || $book->count() <= 0) {
             abort(404);
+        }
+
         $book = $book[0];
         $rules = [
             "cinwaanka_casharka" => "required|string|max:255",
@@ -184,12 +191,13 @@ class MainController extends Controller
                 return FacadesResponse::json([
                     "errorMessage" => $validator->errors()->first(),
                     "isSuccess" => false,
-                    "data" => []
+                    "data" => [],
                 ]);
             }
             $data = $validator->validated();
-        } else
+        } else {
             $data = $request->validate($rules);
+        }
 
         if ($request->hasFile('fileka_casharka')) {
             $uniqueid = uniqid();
@@ -212,54 +220,60 @@ class MainController extends Controller
                         return FacadesResponse::json([
                             "errorMessage" => 'successfully added new sheekh',
                             "isSuccess" => true,
-                            "data" => []
+                            "data" => [],
                         ]);
-                    } else
+                    } else {
                         return Redirect::back()->with('success', 'successfully added new sheekh');
+                    }
+
                 } else {
 
                     if ($request->expectsJson()) {
                         return FacadesResponse::json([
                             "errorMessage" => $LessonModel->errorMessage,
                             "isSuccess" => false,
-                            "data" => []
+                            "data" => [],
                         ]);
-                    } else
+                    } else {
                         return Redirect::back()->withErrors(['errorMessage' => $LessonModel->errorMessage]);
+                    }
+
                 }
-            } catch (\Throwable $th) {
+            } catch (\Throwable$th) {
                 if ($request->expectsJson()) {
                     return FacadesResponse::json([
                         "errorMessage" => $th->getMessage(),
                         "isSuccess" => false,
-                        "data" => []
+                        "data" => [],
                     ]);
-                } else
+                } else {
                     return Redirect::back()->withErrors(['errorMessage' => $th->getMessage()]);
+                }
+
             }
         } else {
             if ($request->expectsJson()) {
                 return FacadesResponse::json([
                     "errorMessage" => 'The lesson audio file is not given',
                     "isSuccess" => false,
-                    "data" => []
+                    "data" => [],
                 ]);
-            } else
+            } else {
                 Redirect::back()->withErrors(['errorMessage' => 'The lesson audio file is not given']);
+            }
+
         }
     }
     public function editLesson(Request $request)
     {
-
 
         $rules = [
             "cinwaanka_casharka" => "required|string|max:255",
             "numbarka_casharka" => "required|integer",
             "fileka_casharka" => "nullable|file|mimes:audio/mpeg,mp3,wav",
             "lesson" => "required|integer|exists:lessons,id",
-            "book" => "required|integer|exists:lessons,book_id"
+            "book" => "required|integer|exists:lessons,book_id",
         ];
-
 
         if ($request->expectsJson()) {
             $validator = Validator::make($request->all(), $rules);
@@ -267,17 +281,17 @@ class MainController extends Controller
                 return FacadesResponse::json([
                     "errorMessage" => $validator->errors()->first(),
                     "isSuccess" => false,
-                    "data" => []
+                    "data" => [],
                 ]);
             }
             $data = $validator->validated();
-        } else
+        } else {
             $data = $request->validate($rules);
-
+        }
 
         $lesson = LessonsModel::where([
             ["id", $data["lesson"]],
-            ["book_id", $data["book"]]
+            ["book_id", $data["book"]],
         ])->get();
         $book = BooksModel::where('id', $data["book"])->get();
 
@@ -285,7 +299,7 @@ class MainController extends Controller
             FacadesResponse::json([
                 "errorMessage" => "The lesson you are tying to edit could not be found",
                 "isSuccess" => false,
-                "data" => []
+                "data" => [],
             ]);
         }
         $lesson = $lesson[0];
@@ -302,18 +316,19 @@ class MainController extends Controller
                 $fileurl = url('/storage/uploads/lessons/' . $cashar_folder . '/' . $name);
                 $path = $request->file('fileka_casharka')->storeAs('public/uploads/lessons/' . $cashar_folder . '/', $name);
 
-
                 $data["file_casharka"] = $fileurl;
                 $data["file_size"] = $size;
-            } catch (\Throwable $th) {
+            } catch (\Throwable$th) {
                 if ($request->expectsJson()) {
                     return FacadesResponse::json([
                         "errorMessage" => $th->getMessage(),
                         "isSuccess" => false,
-                        "data" => []
+                        "data" => [],
                     ]);
-                } else
+                } else {
                     return Redirect::back()->withErrors(['errorMessage' => $th->getMessage()]);
+                }
+
             }
         }
         $LessonModel = new LessonsModel();
@@ -323,27 +338,29 @@ class MainController extends Controller
                 return FacadesResponse::json([
                     "errorMessage" => 'successfully added new sheekh',
                     "isSuccess" => true,
-                    "data" => []
+                    "data" => [],
                 ]);
-            } else
+            } else {
                 return Redirect::back()->with('success', 'successfully added new sheekh');
+            }
+
         } else {
 
             if ($request->expectsJson()) {
                 return FacadesResponse::json([
                     "errorMessage" => $LessonModel->errorMessage,
                     "isSuccess" => false,
-                    "data" => []
+                    "data" => [],
                 ]);
-            } else
+            } else {
                 return Redirect::back()->withErrors(['errorMessage' => $LessonModel->errorMessage]);
+            }
+
         }
     }
 
-
     public function AddSermonToDB(Request $request)
     {
-
 
         $rules = [
             "cinwaanka_muxaadara" => "required|string|max:255",
@@ -358,12 +375,13 @@ class MainController extends Controller
                 return FacadesResponse::json([
                     "errorMessage" => $validator->errors()->first(),
                     "isSuccess" => false,
-                    "data" => []
+                    "data" => [],
                 ]);
             }
             $data = $validator->validated();
-        } else
+        } else {
             $data = $request->validate($rules);
+        }
 
         if ($request->hasFile('fileka_muxaadarada')) {
             $uniqueid = uniqid();
@@ -386,43 +404,50 @@ class MainController extends Controller
                         return FacadesResponse::json([
                             "errorMessage" => 'successfully added new muxadaaro',
                             "isSuccess" => true,
-                            "data" => []
+                            "data" => [],
                         ]);
-                    } else
+                    } else {
                         return Redirect::back()->with('success', 'successfully added new sheekh');
+                    }
+
                 } else {
 
                     if ($request->expectsJson()) {
                         return FacadesResponse::json([
                             "errorMessage" => $SermonModel->errorMessage,
                             "isSuccess" => false,
-                            "data" => []
+                            "data" => [],
                         ]);
-                    } else
+                    } else {
                         return Redirect::back()->withErrors(['errorMessage' => $SermonModel->errorMessage]);
+                    }
+
                 }
-            } catch (\Throwable $th) {
+            } catch (\Throwable$th) {
                 if ($request->expectsJson()) {
                     return FacadesResponse::json([
                         "errorMessage" => $th->getMessage(),
                         "isSuccess" => false,
-                        "data" => []
+                        "data" => [],
                     ]);
-                } else
+                } else {
                     return Redirect::back()->withErrors(['errorMessage' => $th->getMessage()]);
+                }
+
             }
         } else {
             if ($request->expectsJson()) {
                 return FacadesResponse::json([
                     "errorMessage" => 'The lesson audio file is not given',
                     "isSuccess" => false,
-                    "data" => []
+                    "data" => [],
                 ]);
-            } else
+            } else {
                 Redirect::back()->withErrors(['errorMessage' => 'The muxaadaro audio file is not given']);
+            }
+
         }
     }
-
 
     public function openAPIGetSheekhList()
     {
@@ -436,7 +461,7 @@ class MainController extends Controller
         return FacadesResponse::json([
             "errorMessage" => null,
             "isSuccess" => true,
-            "data" => $sheekhs
+            "data" => $sheekhs,
         ]);
     }
     public function openAPIGetSheekhBookCategories($sheekh_id)
@@ -464,11 +489,10 @@ class MainController extends Controller
 
         }
 
-
         return FacadesResponse::json([
             "errorMessage" => null,
             "isSuccess" => true,
-            "data" => $categories
+            "data" => $categories,
         ]);
     }
 
@@ -489,11 +513,10 @@ class MainController extends Controller
             $sheekh[0]->books = $_books;
         }
 
-
         return FacadesResponse::json([
             "errorMessage" => null,
             "isSuccess" => true,
-            "data" => $sheekh[0]
+            "data" => $sheekh[0],
         ]);
     }
 
@@ -509,7 +532,7 @@ class MainController extends Controller
         return FacadesResponse::json([
             "errorMessage" => null,
             "isSuccess" => true,
-            "data" => $books
+            "data" => $books,
         ]);
     }
     public function openAPIGetLessonsList()
@@ -519,7 +542,7 @@ class MainController extends Controller
         return FacadesResponse::json([
             "errorMessage" => null,
             "isSuccess" => true,
-            "data" => $lessons
+            "data" => $lessons,
         ]);
     }
 
@@ -534,7 +557,7 @@ class MainController extends Controller
         return FacadesResponse::json([
             "errorMessage" => null,
             "isSuccess" => true,
-            "data" => $sermons
+            "data" => $sermons,
         ]);
     }
     public function openAPIGetGivenSheekh($sheekh_id)
@@ -550,11 +573,10 @@ class MainController extends Controller
             $sheekh = $sheekh[0];
         }
 
-
         return FacadesResponse::json([
             "errorMessage" => null,
             "isSuccess" => true,
-            "data" => $sheekh
+            "data" => $sheekh,
         ]);
     }
     public function getCategoriesList(Request $request)
@@ -568,7 +590,7 @@ class MainController extends Controller
         return FacadesResponse::json([
             "errorMessage" => null,
             "isSuccess" => true,
-            "data" => $categories
+            "data" => $categories,
         ]);
     }
     public function openAPIGetGivenBook($book_id)
@@ -583,11 +605,10 @@ class MainController extends Controller
             $book = $book[0];
         }
 
-
         return FacadesResponse::json([
             "errorMessage" => null,
             "isSuccess" => true,
-            "data" => $book
+            "data" => $book,
         ]);
     }
 }
