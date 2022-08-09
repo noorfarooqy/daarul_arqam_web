@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\TrendingContentController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,6 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('casharada')->group(function () {
         Route::get('/new/{book_id}', 'MainController@AddLessonForm');
         Route::get('/list', 'MainController@ListLesson');
+        Route::get('/list/{book_id}', 'MainController@viewBookLessons');
         Route::get('/edit/{book_id}/{lesson_id}', 'MainController@EditLessonForm');
         // Route::post('/new/{book_id}', 'MainController@AddLessonToDB');
     });

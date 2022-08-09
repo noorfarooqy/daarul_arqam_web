@@ -88,4 +88,8 @@ class TrendingContentController extends Controller
         $lessons = LessonsModel::get();
         return view('trends.trend_form', compact('sheekhs', 'books', 'sermons', 'lessons'));
     }
+
+    public function viewTrendList(Request $request){
+        return view('trends.trend_form');
+    }
 }

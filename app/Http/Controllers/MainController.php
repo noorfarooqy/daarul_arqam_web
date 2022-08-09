@@ -611,4 +611,11 @@ class MainController extends Controller
             "data" => $book,
         ]);
     }
+
+    public function viewBookLessons(Request $request, $book_id)
+    {
+        $lessons = LessonsModel::where('book_id', $book_id)->get();
+
+        return view('lessons.list_lessons', compact('lessons'));
+    }
 }
