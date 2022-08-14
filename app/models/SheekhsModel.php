@@ -16,6 +16,10 @@ class SheekhsModel extends Model
         "sheekh_icon",
     ];
 
+    protected $appends = [
+        'book_count', 'lesson_count',
+    ];
+
     public $errorMessage = null;
 
     public function addNewSheekh($data)
@@ -26,7 +30,7 @@ class SheekhsModel extends Model
                 "sheekh_email" => $data["emailka_sheekha"],
                 "sheekh_current_country" => $data["wadanka_sheekha"],
             ]);
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
             $this->errorMessage = $th->getMessage();
             return false;
         }
@@ -37,9 +41,21 @@ class SheekhsModel extends Model
         return $this->hasMany(BooksModel::class, 'sheekh_id', 'id');
     }
 
+    public function getBookCountAttribute()
+    {
+        return $this->BookCount();
+    }
+    public function getLessonCountAttribute()
+    {
+        return $this->LessonCount();
+    }
     public function BookCount()
     {
         return $this->Books->count();
+    }
+    public function LessonCount()
+    {
+        return $this->Casharada->count();
     }
 
     public function Casharada()

@@ -25,11 +25,13 @@ Casharada
                                     <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                             <tr>
-                                                <th>Buuga</th>
+
+                                                <th>Date</th>
                                                 <th>Cinwaanka</th>
+                                                <th>Buuga</th>
                                                 <th>Cinwaanka casharka</th>
                                                 <th>File size</th>
-                                                <th>Date</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
 
@@ -53,6 +55,19 @@ Casharada
                                                 </td>
                                                 <td>{{round($lesson->file_size/1000000, 2)}} MB</td>
                                                 <td>{{$lesson->updated_at->format('y-m-d')}}</td>
+                                                <td>
+                                                    <div class="dropdown">
+                                            <button class="btn btn-primary dropdown-toggle" type="button"
+                                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                                Action <i class="mdi mdi-chevron-down"></i>
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item" href="/lessons/{{$lesson->id}}/edit">Edit lessons</a>
+                                                <a class="dropdown-item" href="/lessons/{{$lesson->id}}/delete">Delete</a>
+                                            </div>
+                                        </div>
+                                                </td>
                                             </tr>
                                             @endforeach
                                             

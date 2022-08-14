@@ -7,6 +7,11 @@ use App\models\LessonCategoriesModel;
 use App\models\LessonsModel;
 use App\models\SermonsModel;
 use App\models\SheekhsModel;
+use App\Services\BookServices;
+use App\Services\CategoriesServices;
+use App\Services\LessonServices;
+use App\Services\SermonServices;
+use App\Services\SheekhServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response as FacadesResponse;
@@ -27,100 +32,77 @@ class MainController extends Controller
         return view('sheekhs.add_form');
     }
 
-    public function ListSheekhs(Request $request)
+    public function ListSheekhs(Request $request, SheekhServices $sheekhServices)
     {
-        $sheekhs = SheekhsModel::latest()->get();
+        $sheekhs = $sheekhServices->getLatestsheikhsList($request);
         return view('sheekhs.list_sheekhs', compact('sheekhs'));
     }
 
-    public function ListBooks(Request $request)
+    public function ListBooks(Request $request, BookServices $bookServices)
     {
-        $books = BooksModel::latest()->get();
+        $books = $bookServices->getLatestBooks($request);
         return view('books.list_books', compact('books'));
     }
 
-    public function openBooksFromCategory(Request $request, $cat_id)
+    public function openBooksFromCategory(Request $request, $cat_id, BookServices $bookServices)
     {
-        $books = BooksModel::where('category', $cat_id)->latest()->get();
+        $books = $bookServices->getGivenCategoryBooks($request, $cat_id);
         return view('books.list_books', compact('books'));
     }
-    public function ListLesson(Request $request)
+    public function ListLesson(Request $request, LessonServices $lessonServices)
     {
-        $lessons = LessonsModel::latest()->get();
+        $lessons = $lessonServices->getLatestLessons($request);
         return view('lessons.list_lessons', compact('lessons'));
     }
 
-    public function ListSermons(Request $request)
+    public function ListSermons(Request $request, SermonServices $sermonServices)
     {
-        $muxaadarooyinka = SermonsModel::whereHas('SheekhInfo')->latest()->get();
+        $muxaadarooyinka = $sermonServices->getLatestSermons($request);
         return view('sermons.list_sermons', compact('muxaadarooyinka'));
     }
 
-    public function AddBookForm(Request $request)
+    public function AddBookForm(Request $request, SheekhServices $sheekhServices, CategoriesServices $categoriesServices)
     {
-        $sheekhs = SheekhsModel::get();
-        $categories = LessonCategoriesModel::where('is_active', true)->get();
+        $sheekhs = $sheekhServices->getLatestsheikhsList($request);
+        $categories = $categoriesServices->getCategoriesList($request);
         return view('books.add_form', compact('sheekhs', 'categories'));
     }
-    public function AddLessonForm(Request $request, $book_id)
+    public function AddLessonForm(Request $request, $book_id, BookServices $bookServices)
     {
-        $book = BooksModel::where('id', $book_id)->get();
-        if ($book == null || $book->count() <= 0) {
-            abort(404);
-        }
-
-        $book = $book[0];
+        $book = $bookServices->getBookById($request, $book_id);
+        abort_if(!$book, 404);
         return view('lessons.add_form', compact('book'));
     }
 
-    public function AddSermonForm(Request $request)
+    public function AddSermonForm(Request $request, SheekhServices $sheekhServices)
     {
-        $sheekhs = SheekhsModel::get();
+        $sheekhs = $sheekhServices->getLatestsheikhsList($request);
         return view('sermons.add_form', compact('sheekhs'));
     }
-    public function EditLessonForm(Request $request, $book_id, $lesson_id)
+    public function EditLessonForm(Request $request, $book_id, $lesson_id, LessonServices $lessonServices, BookServices $bookServices)
     {
-        $lesson = LessonsModel::where("id", $lesson_id)->get();
-        abort_if($lesson == null || $lesson->count() <= 0, 404);
-        $book = BooksModel::where('id', $book_id)->get();
-        abort_if($book == null || $book->count() <= 0, 404);
+        $lesson = $lessonServices->getLessonById($request, $lesson_id);
+        $book = $bookServices->getBookById($request, $book_id);
+        abort_if(!$lesson, 404);
 
-        $lesson = $lesson[0];
-        $book = $book[0];
+        abort_if(!$book, 404);
+
         return view('lessons.edit_lesson', compact('lesson', 'book'));
     }
 
-    public function openCategoryPage(Request $request)
+    public function openCategoryPage(Request $request, CategoriesServices $categoriesServices)
     {
-        $categories = LessonCategoriesModel::where('is_active', true)->get();
+        $categories = $categoriesServices->getCategoriesList($request);
         return view('books.category', compact('categories'));
     }
 
-    public function AddBookToDB(Request $request)
+    public function AddBookToDB(Request $request, BookServices $bookServices)
     {
-        $rules = [
-            "sheekha_soojediyay" => "required|integer|exists:sheekhs,id",
-            "magaca_buuga" => "required|string|max:255",
-            "qoraaga_buuga" => "nullable|string|max:255",
-            "faahfaahinta_buuga" => "nullable|string|max:255|min:3",
-            "tirada_saxfada_buuga" => "nullable|numeric|max:99999|min:1",
-            "taariikhda_buuga_la_qoray" => "nullable|date|before:now",
-            "buuga_casharkiisa_socdo" => "nullable|in:on,off",
-            "book_category" => "required|integer|exists:lesson_categories,id",
-        ];
-
-        $data = $request->validate($rules);
-
-        $BookModel = new BooksModel();
-        $data["buuga_casharkiisa_socdo"] = $request->buuga_casharkiisa_socdo == "on";
-
-        $success = $BookModel->addNewBook($data);
-
-        if ($success) {
-            return Redirect::back()->with('success', 'successfully added new book');
+        $book = $bookServices->addNewBook($request);
+        if ($book) {
+            return Redirect::back()->with('success', 'Added New book successfuly');
         }
-
-        return Redirect::back()->withErrors(['errorMessage' => $BookModel->errorMessage]);
+        return Redirect::back()->withErrors(['errorMessage' => $bookServices->getMessage()])->withInput();
     }
     public function AddCategoryBook(Request $request)
     {
@@ -449,20 +431,9 @@ class MainController extends Controller
         }
     }
 
-    public function openAPIGetSheekhList()
+    public function openAPIGetSheekhList(Request $request, SheekhServices $sheekhServices)
     {
-        $sheekhs = SheekhsModel::latest()->get();
-        foreach ($sheekhs as $key => $sheekh) {
-            $sheekhs[$key]["book_count"] = $sheekh->BookCount();
-            $sheekhs[$key]["lesson_count"] = $sheekh->Casharada->count();
-            unset($sheekhs[$key]->Books);
-            unset($sheekhs[$key]->Casharada);
-        }
-        return FacadesResponse::json([
-            "errorMessage" => null,
-            "isSuccess" => true,
-            "data" => $sheekhs,
-        ]);
+        return $sheekhServices->getLatestsheikhsList($request);
     }
     public function openAPIGetSheekhBookCategories($sheekh_id)
     {
@@ -520,30 +491,13 @@ class MainController extends Controller
         ]);
     }
 
-    public function openAPIGetBooksList()
+    public function openAPIGetBooksList(Request $request, BookServices $bookServices)
     {
-        $books = BooksModel::latest()->get();
-
-        foreach ($books as $key => $book) {
-            $book->SheekhInfo;
-            $books[$key]["lesson_count"] = $book->Casharada->count();
-            unset($books[$key]->Casharada);
-        }
-        return FacadesResponse::json([
-            "errorMessage" => null,
-            "isSuccess" => true,
-            "data" => $books,
-        ]);
+        return $bookServices->getLatestBooks($request);
     }
-    public function openAPIGetLessonsList()
+    public function openAPIGetLessonsList(Request $request, LessonServices $lessonServices)
     {
-        $lessons = LessonsModel::with('SheekhInfo', 'BookInfo')->latest()->OrderBy('lesson_number')->get();
-
-        return FacadesResponse::json([
-            "errorMessage" => null,
-            "isSuccess" => true,
-            "data" => $lessons,
-        ]);
+        return $lessonServices->getLatestLessons($request);
     }
 
     public function openAPISermonsList()

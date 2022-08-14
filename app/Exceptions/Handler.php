@@ -2,12 +2,14 @@
 
 namespace App\Exceptions;
 
+use Drongotech\ResponseParser\Traits\ResponseTrait;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Response;
 use Throwable;
 
 class Handler extends ExceptionHandler
 {
+    use ResponseTrait;
     /**
      * A list of the exception types that are not reported.
      *
@@ -51,12 +53,15 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        if ($request->expectsJson())
-            return Response::json([
-                "errorMessage" => $exception->getMessage(),
-                "isSuccess" => false,
-                "data" => [],
-            ]);
+        if ($request->expectsJson()) {
+            return $this->_500Response($exception->getMessage());
+        }
+
+        // return Response::json([
+        //     "errorMessage" => $exception->getMessage(),
+        //     "isSuccess" => false,
+        //     "data" => [],
+        // ]);
         return parent::render($request, $exception);
     }
 }
