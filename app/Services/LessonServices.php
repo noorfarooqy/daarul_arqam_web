@@ -33,7 +33,7 @@ class LessonServices extends DefaultService
         $this->request = $request;
         $is_json = $this->ResponseType();
 
-        $lessons = LessonsModel::where('book_id', $book_id)->with('SheekhInfo', 'BookInfo')->limit(40)->latest()->get();
+        $lessons = LessonsModel::where('book_id', $book_id)->with('SheekhInfo', 'BookInfo')->latest()->get();
 
         return $is_json ? $this->Parse(false, 'success', $lessons) : $lessons;
     }
