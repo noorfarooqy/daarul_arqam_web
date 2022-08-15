@@ -12,7 +12,7 @@ class BookServices extends DefaultService
         $this->request = $request;
         $is_json = $this->ResponseType();
 
-        $books = BooksModel::latest()->get();
+        $books = BooksModel::with('SheekhInfo')->limit(20)->latest()->get();
 
         return $is_json ? $this->Parse(false, 'succcess', $books) : $books;
     }
@@ -55,8 +55,8 @@ class BookServices extends DefaultService
         ];
 
         $this->CustomValidate();
-        if($this->has_failed){
-            return $is_json ? $this->Parse(true, $this->getMessage()): false;
+        if ($this->has_failed) {
+            return $is_json ? $this->Parse(true, $this->getMessage()) : false;
         }
         $data = $this->ValidatedData();
 
@@ -65,12 +65,12 @@ class BookServices extends DefaultService
 
         $success = $BookModel->addNewBook($data);
 
-        if($success){
+        if ($success) {
             return $is_json ? $this->Parse(false, 'success', $success) : $success;
         }
 
         $this->setError($m = $BookModel->getMessage());
-        return $is_json ? $this->Parse(true, $m)  : false;
+        return $is_json ? $this->Parse(true, $m) : false;
 
     }
 }

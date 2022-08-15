@@ -1,11 +1,11 @@
 @extends('layouts.main_layout')
 
 @section('pageTitle')
-Casharada List
+Lessons List
 @endsection
 
 @section('parentPage')
-Casharada
+Lessons
 @endsection
 
 @section('content')
@@ -17,9 +17,9 @@ Casharada
                             <div class="card">
                                 <div class="card-body">
 
-                                    <h4 class="card-title">list of Casharada</h4>
+                                    <h4 class="card-title">list of Lessons</h4>
                                     <p class="card-title-desc">
-                                        List Casharada
+                                        List Lessons
                                     </p>
 
                                     <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -40,7 +40,7 @@ Casharada
                                             @foreach ($lessons as $lesson)
                                                 <tr>
                                                 <td>
-                                                    <a href="/casharada/new/{{$lesson->book_id}}">{{$lesson->BookInfo->book_name}}</a>
+                                                    <a href="/Lessons/new/{{$lesson->book_id}}">{{$lesson->BookInfo->book_name}}</a>
                                                 </td>
                                                 <td>
                                                     <audio controls>
@@ -49,7 +49,7 @@ Casharada
                                                     </audio>
                                                 </td>
                                                 <td>
-                                                    <a href="/casharada/edit/{{$lesson->book_id}}/{{$lesson->id}}">
+                                                    <a href="/Lessons/edit/{{$lesson->book_id}}/{{$lesson->id}}">
                                                         {{strlen($lesson->lesson_title) > 20 ? substr($lesson->lesson_title,0,20).'...' : $lesson->lesson_title}}
                                                     </a>
                                                 </td>

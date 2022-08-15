@@ -290,11 +290,11 @@
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="fas fa-pen"></i>
-                        <span>Casharada</span>
+                        <span>Lessons</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="/books/list">Cashar cusub</a></li>
-                        <li><a href="/casharada/list">Liiska Casharada</a></li>
+                        <li><a href="/Lessons/list">Liiska Lessons</a></li>
                     </ul>
                 </li>
                 <li>

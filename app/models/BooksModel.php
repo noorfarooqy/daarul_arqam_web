@@ -61,7 +61,7 @@ class BooksModel extends Model
         return $this->belongsTo(SheekhsModel::class, 'sheekh_id', 'id');
     }
 
-    public function Casharada()
+    public function Lessons()
     {
         return $this->hasMany(LessonsModel::class, 'book_id', 'id')->orderBy('lesson_number');
     }

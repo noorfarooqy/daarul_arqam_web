@@ -15,8 +15,8 @@ class CreateLessonsTable extends Migration
     {
         Schema::create('lessons', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('book_id');
-            $table->bigInteger('sheekh_id');
+            $table->foreignId('book_id')->references('id')->on('books');
+            $table->foreignId('sheekh_id')->references('id')->on('sheekhs');
             $table->string('lesson_title', 255);
             $table->boolean('lesson_hidden')->default(false);
             $table->integer('lesson_number');

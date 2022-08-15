@@ -116,10 +116,10 @@ Buug
                         <div class="custom-control custom-checkbox mb-2">
                             @if (old('buuga_casharkiisa_socdo'))
                             <input type="checkbox" name="buuga_casharkiisa_socdo" class="custom-control-input" id="customCheck1" checked="">
-                            <label class="custom-control-label" for="customCheck1">Casharada buuga way socdaan</label>
+                            <label class="custom-control-label" for="customCheck1">Lessons buuga way socdaan</label>
                             @else
                             <input type="checkbox" name="buuga_casharkiisa_socdo" class="custom-control-input" id="customCheck1" >
-                            <label class="custom-control-label" for="customCheck1">Casharada buuga way socdaan</label>
+                            <label class="custom-control-label" for="customCheck1">Lessons buuga way socdaan</label>
                             @endif
                             
                         </div>

@@ -30,7 +30,7 @@ Buug
                                     <th>Category</th>
                                     <th>Sheekha aqrinayo</th>
                                     <th>Qoraaga buuga</th>
-                                    <th>Dhamaadka Casharada</th>
+                                    <th>Dhamaadka Lessons</th>
                                     <th>Tirada</th>
                                     <th>Action</th>
                                 </tr>
@@ -41,7 +41,7 @@ Buug
                                 @foreach ($books as $book)
                                 <tr>
                                     <td>
-                                        <a href="/casharada/new/{{$book->id}}">{{$book->book_name}}</a>
+                                        <a href="/Lessons/new/{{$book->id}}">{{$book->book_name}}</a>
                                     </td>
                                     <td>
 
@@ -59,10 +59,10 @@ Buug
                                     <td>
                                         @if ($book->book_is_ongoing)
                                         <i class="fas fa-check-circle"
-                                            style="color: green; padding-right:5px"></i>Casharada way socdaan
+                                            style="color: green; padding-right:5px"></i>Lessons way socdaan
                                         @else
                                         <i class="fas fa-times-circle text-green pr-3"
-                                            style="color:red; padding-right:5px"></i>Casharada waa dhamaad
+                                            style="color:red; padding-right:5px"></i>Lessons waa dhamaad
                                         @endif
                                     </td>
                                     <td>0</td>

@@ -5,7 +5,7 @@ Cashar Cusub
 @endsection
 
 @section('parentPage')
-Casharada
+Lessons
 @endsection
 
 @section('content')
@@ -29,7 +29,7 @@ Casharada
                 
                 
                 
-                {{-- <form class="form" method="POST" action="/casharada/new/{{$book->id}}"
+                {{-- <form class="form" method="POST" action="/Lessons/new/{{$book->id}}"
                     enctype="multipart/form-data">
                     @csrf
                     <div class="mb-4">
@@ -48,7 +48,7 @@ Casharada
                         value="{{old('numbarka_casharka')}}">
                         @else
                         <input class="form-control" name="numbarka_casharka" type="number" placeholder="Numberka casharka"
-                        value="{{$book->Casharada->count()+1}}">
+                        value="{{$book->Lessons->count()+1}}">
                         @endif
                         
                     </div>
@@ -88,7 +88,7 @@ Casharada
 <script>
     window.bookId = "{{$book->id}}";
     window.api_token = "{{Auth::user()->api_token}}";
-    window.lessonNumber = "{{($book->Casharada->count()+1)}}";
+    window.lessonNumber = "{{($book->Lessons->count()+1)}}";
 
 </script>
 @php

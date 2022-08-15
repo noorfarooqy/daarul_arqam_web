@@ -450,7 +450,7 @@ class MainController extends Controller
                 //     $category[0]->Parent;
                 //     array_push($categories, $category[0]);
                 // }
-                // unset($books[$key]->Casharada);
+                // unset($books[$key]->Lessons);
                 $category->Parent;
                 $_books = $category->Books->where('sheekh_id', $sheekh_id);
                 unset($categories[$key]->Books);
@@ -475,8 +475,8 @@ class MainController extends Controller
 
             $_books = [];
             foreach ($books as $key => $book) {
-                $books[$key]["lesson_count"] = $book->Casharada->count();
-                unset($books[$key]->Casharada);
+                $books[$key]["lesson_count"] = $book->Lessons->count();
+                unset($books[$key]->Lessons);
                 array_push($_books, $book);
             }
 
@@ -500,19 +500,9 @@ class MainController extends Controller
         return $lessonServices->getLatestLessons($request);
     }
 
-    public function openAPISermonsList()
+    public function openAPISermonsList(Request $request, SermonServices $sermonServices)
     {
-        $sermons = SermonsModel::whereHas('SheekhInfo')->latest()->get();
-
-        foreach ($sermons as $key => $sermon) {
-            $sermon->sheekhInfo;
-        }
-
-        return FacadesResponse::json([
-            "errorMessage" => null,
-            "isSuccess" => true,
-            "data" => $sermons,
-        ]);
+        return $sermonServices->getLatestSermons($request);
     }
     public function openAPIGetGivenSheekh($sheekh_id)
     {
@@ -521,8 +511,8 @@ class MainController extends Controller
         if ($sheekh != null && $sheekh->count() > 0) {
             $books = $sheekh[0]->Books;
             foreach ($books as $key => $book) {
-                $books[$key]["lesson_count"] = $book->Casharada->count();
-                unset($books[$key]->Casharada);
+                $books[$key]["lesson_count"] = $book->Lessons->count();
+                unset($books[$key]->Lessons);
             }
             $sheekh = $sheekh[0];
         }
@@ -552,7 +542,7 @@ class MainController extends Controller
 
         $book = BooksModel::where('id', $book_id)->get();
         if ($book != null && $book->count() > 0) {
-            $lessons = $book[0]->Casharada;
+            $lessons = $book[0]->Lessons;
             foreach ($lessons as $key => $lesson) {
                 $lesson->sheekhInfo;
             }

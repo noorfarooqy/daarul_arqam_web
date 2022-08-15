@@ -28,7 +28,7 @@ Sheekh
                                                 <th>Email</th>
                                                 <th>Wadanka</th>
                                                 <th>Tirada Buugaagta</th>
-                                                <th>Tirada casharada</th>
+                                                <th>Tirada Lessons</th>
                                             </tr>
                                         </thead>
 
@@ -40,7 +40,7 @@ Sheekh
                                                 <td>{{$sh->sheekh_email}}</td>
                                                 <td>{{$sh->sheekh_current_country}}</td>
                                                 <td>{{$sh->Books->count()}}</td>
-                                                <td>{{$sh->Casharada->count()}}</td>
+                                                <td>{{$sh->Lessons->count()}}</td>
                                             </tr>
                                             @endforeach
                                             

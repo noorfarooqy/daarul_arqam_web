@@ -28,11 +28,11 @@ class LessonsModel extends Model
                 "book_id" => $book->id,
                 "sheekh_id" => $book->sheekh_id,
                 "lesson_title" => $data["cinwaanka_casharka"],
-                "lesson_number" => isset($data["numbarka_casharka"]) ? $data["numbarka_casharka"] : ($book->Casharada->count() + 1),
+                "lesson_number" => isset($data["numbarka_casharka"]) ? $data["numbarka_casharka"] : ($book->Lessons->count() + 1),
                 "lesson_audio_url" => $data["file_casharka"],
                 "file_size" => $data["file_size"],
             ]);
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
             $this->errorMessage = $th->getMessage();
             return false;
         }
@@ -43,10 +43,10 @@ class LessonsModel extends Model
             return $lesson->update([
                 "lesson_title" => $data["cinwaanka_casharka"],
                 "lesson_number" => isset($data["numbarka_casharka"]) ? $data["numbarka_casharka"] : ($lesson->lesson_number),
-                "lesson_audio_url" => isset($data["file_casharka"]) ? $data["file_casharka"]  : $lesson->lesson_audio_url,
+                "lesson_audio_url" => isset($data["file_casharka"]) ? $data["file_casharka"] : $lesson->lesson_audio_url,
                 "file_size" => isset($data["file_size"]) ? $data["file_size"] : $lesson->file_size,
             ]);
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
             $this->errorMessage = $th->getMessage();
             return false;
         }

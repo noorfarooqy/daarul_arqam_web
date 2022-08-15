@@ -42,7 +42,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/category/{cat_id}', 'openBooksFromCategory');
             Route::post('/category', 'AddCategoryBook');
         });
-        Route::prefix('casharada')->group(function () {
+        Route::prefix('Lessons')->group(function () {
             Route::get('/new/{book_id}', 'AddLessonForm');
             Route::get('/list', 'ListLesson');
             Route::get('/edit/{book_id}/{lesson_id}', 'EditLessonForm');

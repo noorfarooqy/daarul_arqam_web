@@ -15,7 +15,7 @@ class CreateBooksTable extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('sheekh_id');
+            $table->foreignId('sheekh_id')->references('id')->on('sheekhs');
             $table->string('book_name');
             $table->string('book_written_by')->nullable();
             $table->string('book_description')->nullable();

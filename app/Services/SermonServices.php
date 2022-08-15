@@ -11,7 +11,7 @@ class SermonServices extends DefaultService
         $this->request = $request;
         $is_json = $this->ResponseType();
 
-        $sermons = SermonsModel::whereHas('SheekhInfo')->latest()->get();
+        $sermons = SermonsModel::whereHas('SheekhInfo')->with('SheekhInfo')->limit(40)->latest()->get();
 
         return $is_json ? $this->Parse(false, 'success', $sermons) : $sermons;
     }

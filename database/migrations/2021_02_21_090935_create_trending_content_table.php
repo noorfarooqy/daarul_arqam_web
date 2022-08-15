@@ -16,7 +16,7 @@ class CreateTrendingContentTable extends Migration
         Schema::create('trending_content', function (Blueprint $table) {
             $table->id();
             $table->foreignId('trending_id');
-            $table->integer('trending_type')->default(1);//book is trending
+            $table->integer('trending_type')->default(1); //book is trending
             $table->boolean('is_active')->default(true);
             $table->string('trend_image')->default('/assets/images/trending_image.png');
             $table->foreignId('created_by')->references('id')->on('users');

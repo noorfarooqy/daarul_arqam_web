@@ -38,7 +38,7 @@
         <a href="/books/list">
             <div class="card border border-danger">
             <div class="card-header bg-transparent border-danger">
-                <h5 class="my-0 text-danger"><i class="mdi mdi-block-helper mr-3"></i>CASHARADA</h5>
+                <h5 class="my-0 text-danger"><i class="mdi mdi-block-helper mr-3"></i>Lessons</h5>
             </div>
             <div class="card-body">
                 <h5 class="card-title mt-0">CASHAR CUSUB</h5>
@@ -85,13 +85,13 @@
     </div>
 
     <div class="col-lg-4">
-        <a href="/casharada/list">
+        <a href="/Lessons/list">
             <div class="card border border-danger">
             <div class="card-header bg-transparent border-danger">
-                <h5 class="my-0 text-danger"><i class="mdi mdi-block-helper mr-3"></i>CASHARADA</h5>
+                <h5 class="my-0 text-danger"><i class="mdi mdi-block-helper mr-3"></i>Lessons</h5>
             </div>
             <div class="card-body">
-                <h5 class="card-title mt-0">LIISKA CASHARADA</h5>
+                <h5 class="card-title mt-0">LIISKA Lessons</h5>
                 <p class="card-text">
 
                 </p>

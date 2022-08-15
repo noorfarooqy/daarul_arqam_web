@@ -38,7 +38,7 @@ Route::controller(MainController::class)->group(function () {
     Route::get('/books', 'openAPIGetBooksList');
     Route::post('/books/{book_id}', 'openAPIGetGivenBook');
     Route::get('/lessons', 'openAPIGetLessonsList');
-    Route::post('/sermons', 'openAPISermonsList');
+    Route::get('/sermons', 'openAPISermonsList');
     Route::post('/categories', 'getCategoriesList');
     Route::post('/sheekhs/categories/{sheekh_id}', 'openAPIGetSheekhBookCategories');
     Route::post('/sheekhs/category/{sheekh_id}/{category_id}', 'openAPIgetGivenSheekhCategoryBooks');

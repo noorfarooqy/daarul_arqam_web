@@ -17,7 +17,7 @@ class SheekhsModel extends Model
     ];
 
     protected $appends = [
-        'book_count', 'lesson_count',
+        // 'book_count', 'lesson_count',
     ];
 
     public $errorMessage = null;
@@ -55,10 +55,10 @@ class SheekhsModel extends Model
     }
     public function LessonCount()
     {
-        return $this->Casharada->count();
+        return $this->Lessons->count();
     }
 
-    public function Casharada()
+    public function Lessons()
     {
         return $this->hasMany(LessonsModel::class, 'sheekh_id', 'id');
     }

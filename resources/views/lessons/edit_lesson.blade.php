@@ -5,7 +5,7 @@ Cashar Cusub
 @endsection
 
 @section('parentPage')
-Casharada
+Lessons
 @endsection
 
 @section('content')

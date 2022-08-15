@@ -15,7 +15,7 @@ class CreateSermonsTable extends Migration
     {
         Schema::create('sermons', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('sheekh_id');
+            $table->unsignedBigInteger('sheekh_id');
             $table->string('sermon_title');
             $table->string('sermon_location');
             $table->timestamps();
