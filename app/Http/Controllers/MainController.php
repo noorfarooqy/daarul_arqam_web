@@ -476,9 +476,9 @@ class MainController extends Controller
             "data" => $categories,
         ]);
     }
-    public function openAPIGetGivenBook(Request $request, $book_id, BookServices $bookServices)
+    public function openAPIGetGivenBook(Request $request, $book_id, LessonServices $lessonServices)
     {
-        return $bookServices->getBookById($request, $book_id);
+        return $lessonServices->getGivenBookLessons($request, $book_id);
     }
 
     public function viewBookLessons(Request $request, $book_id)

@@ -26,4 +26,15 @@ class LessonServices extends DefaultService
 
         return $is_json ? $this->Parse(false, 'success', $lesson) : $lesson;
     }
+
+    public function getGivenBookLessons($request, $book_id)
+    {
+
+        $this->request = $request;
+        $is_json = $this->ResponseType();
+
+        $lessons = LessonsModel::where('book_id', $book_id)->with('SheekhInfo', 'BookInfo')->limit(40)->latest()->get();
+
+        return $is_json ? $this->Parse(false, 'success', $lessons) : $lessons;
+    }
 }
