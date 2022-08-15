@@ -284,7 +284,7 @@ class MainController extends Controller
                 "data" => [],
             ]);
         }
-        $lesson = $lesson[0];
+        // $lesson = $lesson[0];
         if ($request->hasFile('fileka_casharka')) {
             $uniqueid = uniqid();
             $cashar_folder = hash('md5', $book->id);
