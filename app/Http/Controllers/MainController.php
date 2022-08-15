@@ -274,10 +274,10 @@ class MainController extends Controller
         $lesson = LessonsModel::where([
             ["id", $data["lesson"]],
             ["book_id", $data["book"]],
-        ])->get();
-        $book = BooksModel::where('id', $data["book"])->get();
+        ])->get()->first();
+        $book = BooksModel::where('id', $data["book"])->get()->first();
 
-        if ($lesson == null || $lesson->count() <= 0 || $book == null || $book->count() <= 0) {
+        if (!$lesson) {
             FacadesResponse::json([
                 "errorMessage" => "The lesson you are tying to edit could not be found",
                 "isSuccess" => false,
@@ -285,7 +285,6 @@ class MainController extends Controller
             ]);
         }
         $lesson = $lesson[0];
-        $book = $book[0];
         if ($request->hasFile('fileka_casharka')) {
             $uniqueid = uniqid();
             $cashar_folder = hash('md5', $book->id);
@@ -460,7 +459,7 @@ class MainController extends Controller
     }
     public function openAPIGetGivenSheekh(Request $request, $sheekh_id, SheekhServices $sheekhServices)
     {
-        return $sheekhServices->getGivenSheekhDetails($request, $sheekh_id);   
+        return $sheekhServices->getGivenSheekhDetails($request, $sheekh_id);
     }
     public function getCategoriesList(Request $request)
     {
