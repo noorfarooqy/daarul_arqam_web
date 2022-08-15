@@ -32,7 +32,7 @@ class BookServices extends DefaultService
         $this->request = $request;
         $is_json = $this->ResponseType();
 
-        $book = BooksModel::find($book_id);
+        $book = BooksModel::where('id', $book_id)->with('Lessons')->get()->first();
 
         return $is_json ? $this->Parse(false, 'success', $book) : $book;
 

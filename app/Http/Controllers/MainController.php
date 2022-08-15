@@ -435,60 +435,14 @@ class MainController extends Controller
     {
         return $sheekhServices->getLatestsheikhsList($request);
     }
-    public function openAPIGetSheekhBookCategories($sheekh_id)
+    public function openAPIGetSheekhBookCategories(Request $request, $sheekh_id, SheekhServices $sheekhServices)
     {
-        $sheekh = SheekhsModel::where('id', $sheekh_id)->get();
-        $categories = LessonCategoriesModel::where('is_active', true)->whereDoesntHave('parent')->get();
-        // $_books = [];
-        if ($sheekh != null && $sheekh->count() > 0) {
-            // $books = BooksModel::where([
-            //     ['sheekh_id', $sheekh_id],
-            // ])->get();
-            foreach ($categories as $key => $category) {
-                // if ($category != null && $category->count() > 0) {
-                //     $category[0]->Books;
-                //     $category[0]->Parent;
-                //     array_push($categories, $category[0]);
-                // }
-                // unset($books[$key]->Lessons);
-                $category->Parent;
-                $_books = $category->Books->where('sheekh_id', $sheekh_id);
-                unset($categories[$key]->Books);
-                $categories[$key]->books = $_books;
-            }
-            // $sheekh = $sheekh[0];
-
-        }
-
-        return FacadesResponse::json([
-            "errorMessage" => null,
-            "isSuccess" => true,
-            "data" => $categories,
-        ]);
+        return $sheekhServices->getSheekhCategories($request, $sheekh_id);
     }
 
-    public function openAPIgetGivenSheekhCategoryBooks($sheekh_id, $category_id)
+    public function openAPIgetGivenSheekhCategoryBooks(Request $request, $sheekh_id, $category_id, SheekhServices $sheekhServices)
     {
-        $sheekh = SheekhsModel::where('id', $sheekh_id)->get();
-        if ($sheekh != null && $sheekh->count() > 0) {
-            $books = $sheekh[0]->Books->where('category', $category_id);
-
-            $_books = [];
-            foreach ($books as $key => $book) {
-                $books[$key]["lesson_count"] = $book->Lessons->count();
-                unset($books[$key]->Lessons);
-                array_push($_books, $book);
-            }
-
-            unset($sheekh[0]->Books);
-            $sheekh[0]->books = $_books;
-        }
-
-        return FacadesResponse::json([
-            "errorMessage" => null,
-            "isSuccess" => true,
-            "data" => $sheekh[0],
-        ]);
+        return $sheekhServices->getGivenSheekhCategoryBooks($request, $sheekh_id, $category_id);
     }
 
     public function openAPIGetBooksList(Request $request, BookServices $bookServices)
@@ -504,24 +458,9 @@ class MainController extends Controller
     {
         return $sermonServices->getLatestSermons($request);
     }
-    public function openAPIGetGivenSheekh($sheekh_id)
+    public function openAPIGetGivenSheekh(Request $request, $sheekh_id, SheekhServices $sheekhServices)
     {
-
-        $sheekh = SheekhsModel::where('id', $sheekh_id)->get();
-        if ($sheekh != null && $sheekh->count() > 0) {
-            $books = $sheekh[0]->Books;
-            foreach ($books as $key => $book) {
-                $books[$key]["lesson_count"] = $book->Lessons->count();
-                unset($books[$key]->Lessons);
-            }
-            $sheekh = $sheekh[0];
-        }
-
-        return FacadesResponse::json([
-            "errorMessage" => null,
-            "isSuccess" => true,
-            "data" => $sheekh,
-        ]);
+        return $sheekhServices->getGivenSheekhDetails($request, $sheekh_id);   
     }
     public function getCategoriesList(Request $request)
     {
@@ -537,23 +476,9 @@ class MainController extends Controller
             "data" => $categories,
         ]);
     }
-    public function openAPIGetGivenBook($book_id)
+    public function openAPIGetGivenBook(Request $request, $book_id, BookServices $bookServices)
     {
-
-        $book = BooksModel::where('id', $book_id)->get();
-        if ($book != null && $book->count() > 0) {
-            $lessons = $book[0]->Lessons;
-            foreach ($lessons as $key => $lesson) {
-                $lesson->sheekhInfo;
-            }
-            $book = $book[0];
-        }
-
-        return FacadesResponse::json([
-            "errorMessage" => null,
-            "isSuccess" => true,
-            "data" => $book,
-        ]);
+        return $bookServices->getBookById($request, $book_id);
     }
 
     public function viewBookLessons(Request $request, $book_id)

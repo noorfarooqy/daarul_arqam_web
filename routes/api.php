@@ -36,12 +36,12 @@ Route::controller(MainController::class)->group(function () {
     Route::get('/sheekhs', 'openAPIGetSheekhList');
     Route::post('/sheekhs/{sheekh_id}', 'openAPIGetGivenSheekh');
     Route::get('/books', 'openAPIGetBooksList');
-    Route::post('/books/{book_id}', 'openAPIGetGivenBook');
+    Route::get('/books/{book_id}', 'openAPIGetGivenBook');
     Route::get('/lessons', 'openAPIGetLessonsList');
     Route::get('/sermons', 'openAPISermonsList');
     Route::post('/categories', 'getCategoriesList');
-    Route::post('/sheekhs/categories/{sheekh_id}', 'openAPIGetSheekhBookCategories');
-    Route::post('/sheekhs/category/{sheekh_id}/{category_id}', 'openAPIgetGivenSheekhCategoryBooks');
+    Route::get('/sheekhs/categories/{sheekh_id}', 'openAPIGetSheekhBookCategories');
+    Route::get('/sheekhs/category/{sheekh_id}/{category_id}', 'openAPIgetGivenSheekhCategoryBooks');
 
 });
 
