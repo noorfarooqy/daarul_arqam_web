@@ -20,6 +20,10 @@ Route::get('info', function () {
     return phpinfo();
 });
 
+Route::get('policy', function(){
+    return view('policy');
+});
+
 Route::middleware('auth')->group(function () {
     Route::controller(MainController::class)->group(function () {
         Route::get('/', 'OpenIndexPage');
